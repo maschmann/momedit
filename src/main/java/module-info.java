@@ -5,6 +5,7 @@ module dev.aschmann.momedit {
 	requires org.controlsfx.controls;
 	requires com.dlsc.formsfx;
 	requires org.kordamp.bootstrapfx.core;
+	requires com.google.common;
 
 	opens dev.aschmann.momedit to javafx.fxml;
 	exports dev.aschmann.momedit;
