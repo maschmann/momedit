@@ -50,11 +50,28 @@ public class EditorController {
 	private void openFile(File file) {
 		try {
 			Path path = Paths.get(file.getAbsolutePath());
+			StringBuilder concatText = new StringBuilder();
+			int bytesPerLine = 16;
 
 			//Stream<String> lines = Files.lines(path, StandardCharsets.ISO_8859_1);
 			byte[] fileBytes = Files.readAllBytes(path);
+			//String str  = Integer.toHexString((b & 0xff)+256).substring(1);
 			//resourceText.setText(fileBytes.toString());
-			resourceText.setText(BaseEncoding.base16().lowerCase().encode(fileBytes).toString());
+			int iterations = (int)Math.round((float)fileBytes.length / bytesPerLine);
+
+			for (int i = 0; i < iterations; i++) { // catch the rest of the byte array
+				if ((iterations - i) == 1) {
+					int restOfArray = fileBytes.length - (i * bytesPerLine);
+					concatText.append(BaseEncoding.base16().lowerCase().encode(fileBytes, (i * bytesPerLine), restOfArray).toString());
+				} else {
+					concatText.append(BaseEncoding.base16().lowerCase().encode(fileBytes, (i * bytesPerLine), bytesPerLine).toString());
+					concatText.append("\n");
+				}
+
+			}
+
+			//resourceText.setText(concatText.toString());
+			//resourceText.setText(BaseEncoding.base16().lowerCase().encode(fileBytes).toString());
 			//resourceText.setText(lines.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
