@@ -45,6 +45,7 @@ public class EditorController {
 
 	private void openFile(File file) {
 		SaveGame save = new SaveGame(file);
-		resourceText.setText(save.createHexMap().toString());
+		//resourceText.setText(save.createHexMap().toString());
+		resourceText.setText(save.getAbilities().toString());
 	}
 }
