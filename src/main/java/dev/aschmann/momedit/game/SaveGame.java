@@ -9,9 +9,7 @@ import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SaveGame {
 
@@ -30,6 +28,8 @@ public class SaveGame {
     private StringBuilder abilities;
 
     private int gold;
+    private int mana;
+    private int castingSkill;
     private int landSize;
     private int magicIntensity;
     private int difficulty;
@@ -79,6 +79,18 @@ public class SaveGame {
         return concatText;
     }
 
+    public int gold() {
+        return gold;
+    }
+
+    public int mana() {
+        return mana;
+    }
+
+    public int castingSkill() {
+        return castingSkill;
+    }
+
     private void load(File file) {
         try {
             Path path = Paths.get(file.getAbsolutePath());
@@ -89,34 +101,56 @@ public class SaveGame {
     }
 
     private void loadBaseValues() {
-        /*
+        loadOverallValues();
+        loadAbilities();
+    }
+
+    private String findOffset(String offsetStart, int length) {
+        byte[] byteValues = new byte[length];
+        int offsetInt = Integer.parseInt(offsetStart,16);
+        System.arraycopy(fileBytes, offsetInt, byteValues, 0, length);
+        if (length > 1) { // little endian handling, reverse byte[]
+            byteValues = reverseByteArray(byteValues);
+        }
+        String hex = BaseEncoding.base16().encode(byteValues).toString();
+
+        return hex;
+    }
+
+    private void writeOffset(String offsetStart, int length, int value) {
+        byte[] byteValues = BaseEncoding.base16().decode(Integer.toHexString(value));
+        int offsetInt = Integer.parseInt(offsetStart,16);
+        if (length > 1) {
+            byteValues = reverseByteArray(byteValues);
+        }
+
+        //fileBytes[offsetInt] = byteValues[];
+    }
+
+    private byte[] reverseByteArray(byte[] byteArray) {
+        for(int i = 0; i < byteArray.length / 2; i++)
+        {
+            byte temp = byteArray[i];
+            byteArray[i] = byteArray[byteArray.length - i - 1];
+            byteArray[byteArray.length - i - 1] = temp;
+        }
+
+        return byteArray;
+    }
+
+    private void loadOverallValues() {
+         /*
             C44-C45 Change Mana (enter 3075)
             C46-C48 Casting Skill(Personal)
             D3E-D3F Change Money or Gold (enter 3075)
             D40-D42 Casting Skill(Adjusted)
          */
-        //String value = findOffset(2653, 1);
-        initAbilities();
-        //String value = findOffset("A4C", 1);
-        //value = findOffset("A4D", 1);
-        //value = findOffset("A4E", 1);
-        //value = findOffset(2654, 1);
-        //value = findOffset(2655, 1);
+        mana = Integer.parseInt(findOffset("C44", 2), 16);
+        castingSkill = Integer.parseInt(findOffset("C46", 2), 16);
+        gold = Integer.parseInt(findOffset("D3E", 2), 16);
     }
 
-    private String findOffset(String offsetStart, int length) {
-        byte[] byteValues = new byte[length];
-        // convert offset from hex string to int
-        /*byte[] offset = BaseEncoding.base16().decode(offsetStart);
-        ByteBuffer wrapped = ByteBuffer.wrap(offset); // big-endian by default
-        short offsetInt = wrapped.getShort(); // 1*/
-        int offsetInt = Integer.parseInt(offsetStart,16);
-
-        System.arraycopy(fileBytes, offsetInt, byteValues, 0, length);
-        return BaseEncoding.base16().encode(byteValues).toString();
-    }
-    
-    private void initAbilities() {
+    private void loadAbilities() {
         abilities = new StringBuilder();
         addressMap.abilities().forEach((k, v) ->
                 abilities.append(k + " (offset " + v + "): " + Integer.parseInt(findOffset(v, 1), 16) + "\n")

@@ -7,6 +7,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -22,6 +23,20 @@ public class EditorController {
 	private Button openSavegame;
 
 	@FXML
+	private Button save;
+
+	@FXML
+	private TextField txtMana;
+
+	@FXML
+	private TextField txtCasting;
+
+	@FXML
+	private TextField txtGold;
+
+	private SaveGame saveGame;
+
+	@FXML
 	public void onOpenSavegameClick(ActionEvent event) {
 		final FileChooser fileChooser = new FileChooser();
 
@@ -30,7 +45,18 @@ public class EditorController {
 		if (file != null) {
 			openSavegamePath.setText(file.getName());
 			openFile(file);
+			setValuesToControls();
 		}
+	}
+
+	public void onSave(ActionEvent event) {
+
+	}
+
+	private void setValuesToControls() {
+		txtGold.setText(String.valueOf(saveGame.gold()));
+		txtCasting.setText(String.valueOf(saveGame.castingSkill()));
+		txtMana.setText(String.valueOf(saveGame.mana()));
 	}
 
 	private static void configureFileChooser(final FileChooser fileChooser) {
@@ -44,8 +70,8 @@ public class EditorController {
 	}
 
 	private void openFile(File file) {
-		SaveGame save = new SaveGame(file);
+		saveGame = new SaveGame(file);
 		//resourceText.setText(save.createHexMap().toString());
-		resourceText.setText(save.getAbilities().toString());
+		resourceText.setText(saveGame.getAbilities().toString());
 	}
 }
