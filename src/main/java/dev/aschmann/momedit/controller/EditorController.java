@@ -50,13 +50,18 @@ public class EditorController {
 	}
 
 	public void onSave(ActionEvent event) {
-
+		setValuesFromControls();
+		saveGame.save();
 	}
 
 	private void setValuesToControls() {
 		txtGold.setText(String.valueOf(saveGame.gold()));
 		txtCasting.setText(String.valueOf(saveGame.castingSkill()));
 		txtMana.setText(String.valueOf(saveGame.mana()));
+	}
+
+	private void setValuesFromControls() {
+		saveGame.setGold(Integer.parseInt(txtGold.getText()));
 	}
 
 	private static void configureFileChooser(final FileChooser fileChooser) {

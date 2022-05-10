@@ -18,6 +18,8 @@ public class SaveGame {
 
     private AddressMap addressMap;
 
+    private Path path;
+
     private Wizard wizard;
     private List<Item> items;
     private List<Spell> spells;
@@ -50,37 +52,12 @@ public class SaveGame {
         SaveGame saveGame = new SaveGame(file);
     }
 
-    /**
-     * Just for reference, Hexmap as StringBuilder instance and debugging
-     * @return StringBuilder
-     */
-    public StringBuilder createHexMap() {
-        StringBuilder concatText = new StringBuilder();
-        int linesInFile = (int) Math.round((float) fileBytes.length / BYTES_PER_LINE);
-
-        for (int i = 0; i < linesInFile; i++) { // catch the rest of the byte array
-            if ((linesInFile - i) == 1) {
-                int restOfArray = fileBytes.length - (i * BYTES_PER_LINE);
-                concatText.append(
-                        BaseEncoding.base16().lowerCase().encode(
-                                fileBytes, (i * BYTES_PER_LINE), restOfArray
-                        ).toString()
-                );
-            } else {
-                concatText.append(
-                    BaseEncoding.base16().lowerCase().encode(
-                        fileBytes, (i * BYTES_PER_LINE), BYTES_PER_LINE
-                    ).toString()
-                );
-                concatText.append("\n");
-            }
-        }
-
-        return concatText;
-    }
-
     public int gold() {
         return gold;
+    }
+
+    public void setGold(int gold) {
+        writeOffset("D3E", 2, gold);
     }
 
     public int mana() {
@@ -91,9 +68,17 @@ public class SaveGame {
         return castingSkill;
     }
 
+    public void save() {
+        try {
+            Files.write(path, fileBytes);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void load(File file) {
         try {
-            Path path = Paths.get(file.getAbsolutePath());
+            path = Paths.get(file.getAbsolutePath());
             fileBytes = Files.readAllBytes(path);
         } catch (IOException e) {
             e.printStackTrace();
@@ -107,35 +92,34 @@ public class SaveGame {
 
     private String findOffset(String offsetStart, int length) {
         byte[] byteValues = new byte[length];
-        int offsetInt = Integer.parseInt(offsetStart,16);
+        int offsetInt = Integer.parseInt(offsetStart, 16);
         System.arraycopy(fileBytes, offsetInt, byteValues, 0, length);
         if (length > 1) { // little endian handling, reverse byte[]
-            byteValues = reverseByteArray(byteValues);
+            reverseByteArray(byteValues);
         }
-        String hex = BaseEncoding.base16().encode(byteValues).toString();
 
-        return hex;
+        return BaseEncoding.base16().encode(byteValues).toString();
     }
 
     private void writeOffset(String offsetStart, int length, int value) {
-        byte[] byteValues = BaseEncoding.base16().decode(Integer.toHexString(value));
-        int offsetInt = Integer.parseInt(offsetStart,16);
-        if (length > 1) {
-            byteValues = reverseByteArray(byteValues);
+        String hexval = Integer.toHexString(value);
+        byte[] byteValues = BaseEncoding.base16().upperCase().decode(hexval);
+        int offsetInt = Integer.parseInt(offsetStart, 16);
+        if (length > 1) { // little endian again
+            reverseByteArray(byteValues);
         }
 
-        //fileBytes[offsetInt] = byteValues[];
+        for (int i = 0; i < byteValues.length; i++) {
+            fileBytes[offsetInt + i] = byteValues[i];
+        }
     }
 
-    private byte[] reverseByteArray(byte[] byteArray) {
-        for(int i = 0; i < byteArray.length / 2; i++)
-        {
+    private void reverseByteArray(byte[] byteArray) {
+        for (int i = 0; i < byteArray.length / 2; i++) {
             byte temp = byteArray[i];
             byteArray[i] = byteArray[byteArray.length - i - 1];
             byteArray[byteArray.length - i - 1] = temp;
         }
-
-        return byteArray;
     }
 
     private void loadOverallValues() {
