@@ -1,18 +1,24 @@
 package dev.aschmann.momedit.controller;
 
 import dev.aschmann.momedit.game.SaveGame;
+import dev.aschmann.momedit.game.models.Ability;
+import dev.aschmann.momedit.game.models.AbilityModel;
+import dev.aschmann.momedit.game.models.SaveGameEntryInterface;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
+import javafx.fxml.Initializable;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class EditorController {
+public class EditorController implements Initializable{
 	@FXML
 	private Label openSavegamePath;
 
@@ -34,7 +40,26 @@ public class EditorController {
 	@FXML
 	private TextField txtGold;
 
+	@FXML
+	private TableView<AbilityModel> abilityTable;
+
+	@FXML
+	public TableColumn<AbilityModel, Integer> value;
+
+	@FXML
+	public TableColumn<AbilityModel, String> name;
+
 	private SaveGame saveGame;
+
+	@FXML
+	private ObservableList<AbilityModel> abilities;
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		name.setCellValueFactory(new PropertyValueFactory<>("getName"));
+		value.setCellValueFactory(new PropertyValueFactory<>("getValue"));
+		abilityTable.setEditable(true);
+	}
 
 	@FXML
 	public void onOpenSavegameClick(ActionEvent event) {
@@ -58,6 +83,18 @@ public class EditorController {
 		txtGold.setText(String.valueOf(saveGame.gold()));
 		txtCasting.setText(String.valueOf(saveGame.castingSkill()));
 		txtMana.setText(String.valueOf(saveGame.mana()));
+
+		abilities = FXCollections.observableArrayList();
+		saveGame.getAbilities().forEach((ability) -> {
+			abilities.add(
+				new AbilityModel(
+					ability.getName(),
+					ability.getValue()
+				)
+			);
+		});
+
+		abilityTable.setItems(abilities);
 	}
 
 	private void setValuesFromControls() {
@@ -76,7 +113,6 @@ public class EditorController {
 
 	private void openFile(File file) {
 		saveGame = new SaveGame(file);
-		//resourceText.setText(save.createHexMap().toString());
-		resourceText.setText(saveGame.getAbilities().toString());
+		//resourceText.setText(saveGame.getAbilities().toString());
 	}
 }

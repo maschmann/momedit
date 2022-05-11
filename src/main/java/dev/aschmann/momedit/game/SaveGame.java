@@ -2,6 +2,7 @@ package dev.aschmann.momedit.game;
 
 import com.google.common.io.BaseEncoding;
 import dev.aschmann.momedit.game.models.*;
+import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,9 +26,7 @@ public class SaveGame {
     private List<Spell> spells;
     private List<Hero> heroes;
     private List<City> cities;
-
-    // debug
-    private StringBuilder abilities;
+    private List<Ability> abilities = new ArrayList<Ability>();
 
     private int gold;
     private int mana;
@@ -102,15 +101,20 @@ public class SaveGame {
     }
 
     private void writeOffset(String offsetStart, int length, int value) {
-        String hexval = Integer.toHexString(value);
-        byte[] byteValues = BaseEncoding.base16().upperCase().decode(hexval);
-        int offsetInt = Integer.parseInt(offsetStart, 16);
-        if (length > 1) { // little endian again
-            reverseByteArray(byteValues);
-        }
+        // decode only takes uppercase hex values for ... reasons
+        String hexval = Integer.toHexString(value).toUpperCase();
+        try {
+            byte[] byteValues = BaseEncoding.base16().decode(hexval);
+            int offsetInt = Integer.parseInt(offsetStart, 16);
+            if (length > 1) { // little endian again
+                reverseByteArray(byteValues);
+            }
 
-        for (int i = 0; i < byteValues.length; i++) {
-            fileBytes[offsetInt + i] = byteValues[i];
+            for (int i = 0; i < byteValues.length; i++) {
+                fileBytes[offsetInt + i] = byteValues[i];
+            }
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
         }
     }
 
@@ -135,13 +139,19 @@ public class SaveGame {
     }
 
     private void loadAbilities() {
-        abilities = new StringBuilder();
-        addressMap.abilities().forEach((k, v) ->
-                abilities.append(k + " (offset " + v + "): " + Integer.parseInt(findOffset(v, 1), 16) + "\n")
-        );
+       addressMap.abilities().forEach((name, offset) -> {
+           //abilities.append(k + " (offset " + v + "): " + Integer.parseInt(findOffset(v, 1), 16) + "\n")
+           abilities.add(
+               new Ability(
+                   name,
+                   offset,
+                   Integer.parseInt(findOffset(offset, 1), 16)
+               )
+           );
+       });
     }
 
-    public StringBuilder getAbilities() {
+    public List<Ability> getAbilities() {
         return abilities;
     }
 }
