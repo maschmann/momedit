@@ -26,29 +26,34 @@ public class SaveGame {
     private List<Spell> spells;
     private List<Hero> heroes;
     private List<City> cities;
-    private List<Ability> abilities = new ArrayList<Ability>();
 
     private int gold;
     private int mana;
     private int castingSkill;
-    private int landSize;
-    private int magicIntensity;
-    private int difficulty;
 
     /**
      * byte array of binary savegame
      */
     private byte[] fileBytes;
 
-    public SaveGame(File file) {
+    public SaveGame() {
         //@todo move to bean if DI added
         addressMap = new AddressMap();
-        load(file);
-        loadBaseValues();
     }
 
-    public static void main(File file) {
-        SaveGame saveGame = new SaveGame(file);
+    public static void main() {
+        SaveGame saveGame = new SaveGame();
+    }
+
+    public void load(File file) {
+        try {
+            path = Paths.get(file.getAbsolutePath());
+            fileBytes = Files.readAllBytes(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        loadBaseValues();
     }
 
     public int gold() {
@@ -75,18 +80,12 @@ public class SaveGame {
         }
     }
 
-    private void load(File file) {
-        try {
-            path = Paths.get(file.getAbsolutePath());
-            fileBytes = Files.readAllBytes(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void writeSingleValOffset(String offset, int value) {
+        writeOffset(offset, 1, value);
     }
 
     private void loadBaseValues() {
         loadOverallValues();
-        loadAbilities();
     }
 
     private String findOffset(String offsetStart, int length) {
@@ -138,20 +137,48 @@ public class SaveGame {
         gold = Integer.parseInt(findOffset("D3E", 2), 16);
     }
 
-    private void loadAbilities() {
-       addressMap.abilities().forEach((name, offset) -> {
-           //abilities.append(k + " (offset " + v + "): " + Integer.parseInt(findOffset(v, 1), 16) + "\n")
-           abilities.add(
-               new Ability(
-                   name,
-                   offset,
-                   Integer.parseInt(findOffset(offset, 1), 16)
-               )
-           );
-       });
+    /*public  findByName() {
+        public static Carnet findByCodeIsIn(Collection<Carnet> listCarnet, String codeIsIn) {
+            return listCarnet.stream().filter(carnet-> codeIsIn.equals(carnet.getCodeIsIn()))
+                    .findFirst().orElse(null);
+        }
+    }*/
+
+    public List<SaveGameEntryInterface> getAbilities() {
+        List<SaveGameEntryInterface> list = new ArrayList<SaveGameEntryInterface>();
+        addressMap.abilities().forEach((name, offset) -> {
+            list.add(
+                new Ability(
+                    name,
+                    offset,
+                    Integer.parseInt(findOffset(offset, 1), 16)
+                )
+            );
+        });
+
+        return list;
     }
 
-    public List<Ability> getAbilities() {
-        return abilities;
+    public List<SaveGameEntryInterface> getNature() {
+        List<SaveGameEntryInterface> list = new ArrayList<SaveGameEntryInterface>();
+        addressMap.nature().forEach((name, offset) -> {
+            list.add(
+                new Spell(
+                    name,
+                    offset,
+                    Integer.parseInt(findOffset(offset, 1), 16)
+                )
+            );
+        });
+
+        return list;
+    }
+
+    /**
+     * for convenience we're breaking some rules and expose inner objects and domain knowledge
+     * more or less directly.
+     */
+    public AddressMap getAddressMap() {
+        return addressMap;
     }
 }

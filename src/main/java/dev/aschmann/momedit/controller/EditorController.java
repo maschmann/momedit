@@ -1,29 +1,28 @@
 package dev.aschmann.momedit.controller;
 
 import dev.aschmann.momedit.game.SaveGame;
-import dev.aschmann.momedit.game.models.Ability;
-import dev.aschmann.momedit.game.models.AbilityModel;
 import dev.aschmann.momedit.game.models.SaveGameEntryInterface;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.stage.FileChooser;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import org.controlsfx.control.textfield.CustomTextField;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class EditorController implements Initializable{
 	@FXML
 	private Label openSavegamePath;
-
-	@FXML
-	private TextArea resourceText;
 
 	@FXML
 	private Button openSavegame;
@@ -41,24 +40,22 @@ public class EditorController implements Initializable{
 	private TextField txtGold;
 
 	@FXML
-	private TableView<AbilityModel> abilityTable;
+	public VBox abilityBox;
 
 	@FXML
-	public TableColumn<AbilityModel, Integer> value;
+	public VBox bookBox;
 
 	@FXML
-	public TableColumn<AbilityModel, String> name;
+	public VBox natureBox;
 
 	private SaveGame saveGame;
 
-	@FXML
-	private ObservableList<AbilityModel> abilities;
-
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		name.setCellValueFactory(new PropertyValueFactory<>("getName"));
-		value.setCellValueFactory(new PropertyValueFactory<>("getValue"));
-		abilityTable.setEditable(true);
+		saveGame = new SaveGame();
+		initCheckBoxesFromMap(saveGame.getAddressMap().abilities(), abilityBox);
+		initTextFromMap(saveGame.getAddressMap().books(), bookBox);
+		initTextFromMap(saveGame.getAddressMap().nature(), natureBox);
 	}
 
 	@FXML
@@ -69,9 +66,24 @@ public class EditorController implements Initializable{
 		File file = fileChooser.showOpenDialog(((Node) event.getTarget()).getScene().getWindow());
 		if (file != null) {
 			openSavegamePath.setText(file.getName());
-			openFile(file);
+			saveGame.load(file);
 			setValuesToControls();
 		}
+	}
+
+	public void handleCheckboxUpdate(ActionEvent event) {
+		Object cb = event.getSource();
+		if (cb instanceof CheckBox) {
+			saveGame.writeSingleValOffset(
+				((CheckBox) cb).getId(),
+				((CheckBox) cb).isSelected() ? 1 : 0
+			);
+		}
+	}
+
+	public void handleTextUpdate(ActionEvent event) {
+		int value = 0;
+		//saveGame.getAbilities().
 	}
 
 	public void onSave(ActionEvent event) {
@@ -84,17 +96,8 @@ public class EditorController implements Initializable{
 		txtCasting.setText(String.valueOf(saveGame.castingSkill()));
 		txtMana.setText(String.valueOf(saveGame.mana()));
 
-		abilities = FXCollections.observableArrayList();
-		saveGame.getAbilities().forEach((ability) -> {
-			abilities.add(
-				new AbilityModel(
-					ability.getName(),
-					ability.getValue()
-				)
-			);
-		});
-
-		abilityTable.setItems(abilities);
+		updateCheckboxesWithValues(saveGame.getAbilities(), abilityBox);
+		updateTextWithValues(saveGame.getNature(), natureBox);
 	}
 
 	private void setValuesFromControls() {
@@ -111,8 +114,44 @@ public class EditorController implements Initializable{
 		);
 	}
 
-	private void openFile(File file) {
-		saveGame = new SaveGame(file);
-		//resourceText.setText(saveGame.getAbilities().toString());
+	/**
+	 * to have some initial fields in the editor. Makes it nicer
+	 */
+	private void initCheckBoxesFromMap(Map<String, String> map, VBox vbox) {
+		map.forEach((name, offset) -> {
+			CheckBox cb = new CheckBox(offset);
+			cb.setText(name);
+			cb.setSelected(false);
+			vbox.getChildren().add(cb);
+		});
+	}
+
+	private void initTextFromMap(Map<String, String> map, VBox vbox) {
+		map.forEach((name, offset) -> {
+			CustomTextField txt = new CustomTextField();
+			txt.setId(offset);
+			txt.setLeft(new Label(name));
+			vbox.getChildren().add(txt);
+		});
+	}
+
+	private void updateTextWithValues(List<SaveGameEntryInterface> list, VBox vbox) {
+		for (int i = 0; i < list.size(); i++) {
+			Object txt = vbox.getChildren().get(i);
+			if (txt instanceof CustomTextField) {
+				((CustomTextField) txt).setText(String.valueOf(list.get(i).getValue()));
+				((CustomTextField) txt).setOnAction(this::handleTextUpdate);
+			}
+		}
+	}
+
+	private void updateCheckboxesWithValues(List<SaveGameEntryInterface> list, VBox vbox) {
+		for (int i = 0; i < list.size(); i++) {
+			Object cb = vbox.getChildren().get(i);
+			if (cb instanceof CheckBox) {
+				((CheckBox) cb).setSelected(list.get(i).getValue() == 1);
+				((CheckBox) cb).setOnAction(this::handleCheckboxUpdate);
+			}
+		}
 	}
 }
