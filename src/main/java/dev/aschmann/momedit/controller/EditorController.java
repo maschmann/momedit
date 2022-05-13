@@ -3,13 +3,14 @@ package dev.aschmann.momedit.controller;
 import dev.aschmann.momedit.game.SaveGame;
 import dev.aschmann.momedit.game.models.SaveGameEntryInterface;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.ComboBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import org.controlsfx.control.textfield.CustomTextField;
@@ -42,20 +43,30 @@ public class EditorController implements Initializable{
 	@FXML
 	public VBox abilityBox;
 
-	@FXML
-	public VBox bookBox;
-
-	@FXML
-	public VBox natureBox;
-
 	private SaveGame saveGame;
+
+	@FXML
+	public TableView<SaveGameEntryInterface> tbl_nature;
+
+	@FXML
+	public TableView<SaveGameEntryInterface> tbl_sorcery;
+
+	@FXML
+	public TableView<SaveGameEntryInterface> tbl_chaos;
+
+	@FXML
+	public TableView<SaveGameEntryInterface> tbl_life;
+
+	@FXML
+	public TableView<SaveGameEntryInterface> tbl_death;
+
+	@FXML
+	public TableView<SaveGameEntryInterface> tbl_arcane;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		saveGame = new SaveGame();
 		initCheckBoxesFromMap(saveGame.getAddressMap().abilities(), abilityBox);
-		initTextFromMap(saveGame.getAddressMap().books(), bookBox);
-		initTextFromMap(saveGame.getAddressMap().nature(), natureBox);
 	}
 
 	@FXML
@@ -81,14 +92,15 @@ public class EditorController implements Initializable{
 		}
 	}
 
-	public void handleTextUpdate(ActionEvent event) {
-		int value = 0;
-		//saveGame.getAbilities().
-	}
-
 	public void onSave(ActionEvent event) {
 		setValuesFromControls();
 		saveGame.save();
+
+		Alert alert = new Alert(Alert.AlertType.INFORMATION);
+		alert.setTitle("Game saved");
+		alert.setHeaderText("Game saved");
+		alert.setContentText("Your game has been saved :-)");
+		alert.show();
 	}
 
 	private void setValuesToControls() {
@@ -97,7 +109,13 @@ public class EditorController implements Initializable{
 		txtMana.setText(String.valueOf(saveGame.mana()));
 
 		updateCheckboxesWithValues(saveGame.getAbilities(), abilityBox);
-		updateTextWithValues(saveGame.getNature(), natureBox);
+
+		initTable(saveGame.getLife(), tbl_life);
+		initTable(saveGame.getDeath(), tbl_death);
+		initTable(saveGame.getNature(), tbl_nature);
+		initTable(saveGame.getSorcery(), tbl_sorcery);
+		initTable(saveGame.getChaos(), tbl_chaos);
+		initTable(saveGame.getArcane(), tbl_arcane);
 	}
 
 	private void setValuesFromControls() {
@@ -118,31 +136,13 @@ public class EditorController implements Initializable{
 	 * to have some initial fields in the editor. Makes it nicer
 	 */
 	private void initCheckBoxesFromMap(Map<String, String> map, VBox vbox) {
+		vbox.setFillWidth(false);
 		map.forEach((name, offset) -> {
 			CheckBox cb = new CheckBox(offset);
 			cb.setText(name);
 			cb.setSelected(false);
 			vbox.getChildren().add(cb);
 		});
-	}
-
-	private void initTextFromMap(Map<String, String> map, VBox vbox) {
-		map.forEach((name, offset) -> {
-			CustomTextField txt = new CustomTextField();
-			txt.setId(offset);
-			txt.setLeft(new Label(name));
-			vbox.getChildren().add(txt);
-		});
-	}
-
-	private void updateTextWithValues(List<SaveGameEntryInterface> list, VBox vbox) {
-		for (int i = 0; i < list.size(); i++) {
-			Object txt = vbox.getChildren().get(i);
-			if (txt instanceof CustomTextField) {
-				((CustomTextField) txt).setText(String.valueOf(list.get(i).getValue()));
-				((CustomTextField) txt).setOnAction(this::handleTextUpdate);
-			}
-		}
 	}
 
 	private void updateCheckboxesWithValues(List<SaveGameEntryInterface> list, VBox vbox) {
@@ -153,5 +153,31 @@ public class EditorController implements Initializable{
 				((CheckBox) cb).setOnAction(this::handleCheckboxUpdate);
 			}
 		}
+	}
+
+	private void initTable(List<SaveGameEntryInterface> map, TableView<SaveGameEntryInterface> table) {
+		table.getColumns().removeAll(table.getColumns());
+
+		TableColumn<SaveGameEntryInterface, String> column1 = new TableColumn<>("spell");
+		column1.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+		TableColumn<SaveGameEntryInterface, Integer> column2 = new TableColumn<>("value");
+		column2.setCellValueFactory(new PropertyValueFactory<>("value"));
+		column2.setCellFactory(ComboBoxTableCell.<SaveGameEntryInterface, Integer>forTableColumn(0, 1, 2, 3));
+		column2.setOnEditCommit(event -> {
+			SaveGameEntryInterface save = event.getTableView().getItems().get(event.getTablePosition().getRow());
+			save.setValue(event.getNewValue());
+			saveGame.writeSingleValOffset(save.getHexOffset(), event.getNewValue());
+		});
+
+		/*TableColumn<SaveGameEntryInterface, String> column3 = new TableColumn<>("offset");
+		column3.setCellValueFactory(new PropertyValueFactory<>("hexOffset"));
+		column3.setCellFactory(TextFieldTableCell.<SaveGameEntryInterface>forTableColumn());
+		column3.setVisible(false); // just needed for debugging*/
+
+		table.getColumns().add(column1);
+		table.getColumns().add(column2);
+		//table.getColumns().add(column3);
+		table.getItems().addAll(map);
 	}
 }

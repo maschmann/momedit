@@ -102,6 +102,9 @@ public class SaveGame {
     private void writeOffset(String offsetStart, int length, int value) {
         // decode only takes uppercase hex values for ... reasons
         String hexval = Integer.toHexString(value).toUpperCase();
+        if (((length * 2) - hexval.length()) == 1) { // add padding or BaseEncoding will break
+            hexval = "0" + hexval;
+        }
         try {
             byte[] byteValues = BaseEncoding.base16().decode(hexval);
             int offsetInt = Integer.parseInt(offsetStart, 16);
@@ -145,23 +148,44 @@ public class SaveGame {
     }*/
 
     public List<SaveGameEntryInterface> getAbilities() {
-        List<SaveGameEntryInterface> list = new ArrayList<SaveGameEntryInterface>();
-        addressMap.abilities().forEach((name, offset) -> {
-            list.add(
-                new Ability(
-                    name,
-                    offset,
-                    Integer.parseInt(findOffset(offset, 1), 16)
-                )
-            );
-        });
-
-        return list;
+        return createList(addressMap.abilities());
     }
 
     public List<SaveGameEntryInterface> getNature() {
+        return createList(addressMap.nature());
+    }
+
+    public List<SaveGameEntryInterface> getSorcery() {
+        return createList(addressMap.nature());
+    }
+
+    public List<SaveGameEntryInterface> getChaos() {
+        return createList(addressMap.chaos());
+    }
+
+    public List<SaveGameEntryInterface> getLife() {
+        return createList(addressMap.life());
+    }
+
+    public List<SaveGameEntryInterface> getDeath() {
+        return createList(addressMap.death());
+    }
+
+    public List<SaveGameEntryInterface> getArcane() {
+        return createList(addressMap.arcane());
+    }
+
+    /**
+     * for convenience we're breaking some rules and expose inner objects and domain knowledge
+     * more or less directly.
+     */
+    public AddressMap getAddressMap() {
+        return addressMap;
+    }
+
+    private List<SaveGameEntryInterface> createList(Map<String, String> map) {
         List<SaveGameEntryInterface> list = new ArrayList<SaveGameEntryInterface>();
-        addressMap.nature().forEach((name, offset) -> {
+        map.forEach((name, offset) -> {
             list.add(
                 new Spell(
                     name,
@@ -172,13 +196,5 @@ public class SaveGame {
         });
 
         return list;
-    }
-
-    /**
-     * for convenience we're breaking some rules and expose inner objects and domain knowledge
-     * more or less directly.
-     */
-    public AddressMap getAddressMap() {
-        return addressMap;
     }
 }
