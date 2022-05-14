@@ -17,19 +17,9 @@ public class SaveGame {
     /* bytes per hex line */
     private static final int BYTES_PER_LINE = 16;
 
-    private AddressMap addressMap;
+    private final AddressMap addressMap;
 
     private Path path;
-
-    private Wizard wizard;
-    private List<Item> items;
-    private List<Spell> spells;
-    private List<Hero> heroes;
-    private List<City> cities;
-
-    private int gold;
-    private int mana;
-    private int castingSkill;
 
     /**
      * byte array of binary savegame
@@ -52,24 +42,6 @@ public class SaveGame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        loadBaseValues();
-    }
-
-    public int gold() {
-        return gold;
-    }
-
-    public void setGold(int gold) {
-        writeOffset("D3E", 2, gold);
-    }
-
-    public int mana() {
-        return mana;
-    }
-
-    public int castingSkill() {
-        return castingSkill;
     }
 
     public void save() {
@@ -84,10 +56,6 @@ public class SaveGame {
         writeOffset(offset, 1, value);
     }
 
-    private void loadBaseValues() {
-        loadOverallValues();
-    }
-
     private String findOffset(String offsetStart, int length) {
         byte[] byteValues = new byte[length];
         int offsetInt = Integer.parseInt(offsetStart, 16);
@@ -99,7 +67,7 @@ public class SaveGame {
         return BaseEncoding.base16().encode(byteValues).toString();
     }
 
-    private void writeOffset(String offsetStart, int length, int value) {
+    public void writeOffset(String offsetStart, int length, int value) {
         // decode only takes uppercase hex values for ... reasons
         String hexval = Integer.toHexString(value).toUpperCase();
         if (((length * 2) - hexval.length()) == 1) { // add padding or BaseEncoding will break
@@ -128,51 +96,36 @@ public class SaveGame {
         }
     }
 
-    private void loadOverallValues() {
-         /*
-            C44-C45 Change Mana (enter 3075)
-            C46-C48 Casting Skill(Personal)
-            D3E-D3F Change Money or Gold (enter 3075)
-            D40-D42 Casting Skill(Adjusted)
-         */
-        mana = Integer.parseInt(findOffset("C44", 2), 16);
-        castingSkill = Integer.parseInt(findOffset("C46", 2), 16);
-        gold = Integer.parseInt(findOffset("D3E", 2), 16);
+    public List<SaveGameEntryInterface> getBase() {
+        return createList(addressMap.base(), 2);
     }
 
-    /*public  findByName() {
-        public static Carnet findByCodeIsIn(Collection<Carnet> listCarnet, String codeIsIn) {
-            return listCarnet.stream().filter(carnet-> codeIsIn.equals(carnet.getCodeIsIn()))
-                    .findFirst().orElse(null);
-        }
-    }*/
-
     public List<SaveGameEntryInterface> getAbilities() {
-        return createList(addressMap.abilities());
+        return createList(addressMap.abilities(), 1);
     }
 
     public List<SaveGameEntryInterface> getNature() {
-        return createList(addressMap.nature());
+        return createList(addressMap.nature(), 1);
     }
 
     public List<SaveGameEntryInterface> getSorcery() {
-        return createList(addressMap.nature());
+        return createList(addressMap.sorcery(), 1);
     }
 
     public List<SaveGameEntryInterface> getChaos() {
-        return createList(addressMap.chaos());
+        return createList(addressMap.chaos(), 1);
     }
 
     public List<SaveGameEntryInterface> getLife() {
-        return createList(addressMap.life());
+        return createList(addressMap.life(), 1);
     }
 
     public List<SaveGameEntryInterface> getDeath() {
-        return createList(addressMap.death());
+        return createList(addressMap.death(), 1);
     }
 
     public List<SaveGameEntryInterface> getArcane() {
-        return createList(addressMap.arcane());
+        return createList(addressMap.arcane(), 1);
     }
 
     /**
@@ -183,14 +136,14 @@ public class SaveGame {
         return addressMap;
     }
 
-    private List<SaveGameEntryInterface> createList(Map<String, String> map) {
+    private List<SaveGameEntryInterface> createList(Map<String, String> map, int length) {
         List<SaveGameEntryInterface> list = new ArrayList<SaveGameEntryInterface>();
         map.forEach((name, offset) -> {
             list.add(
-                new Spell(
+                new ListItem(
                     name,
                     offset,
-                    Integer.parseInt(findOffset(offset, 1), 16)
+                    Integer.parseInt(findOffset(offset, length), 16)
                 )
             );
         });

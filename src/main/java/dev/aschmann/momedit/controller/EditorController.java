@@ -3,7 +3,6 @@ package dev.aschmann.momedit.controller;
 import dev.aschmann.momedit.game.SaveGame;
 import dev.aschmann.momedit.game.models.SaveGameEntryInterface;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -13,7 +12,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import org.controlsfx.control.textfield.CustomTextField;
+import javafx.util.converter.IntegerStringConverter;
 
 import java.io.File;
 import java.net.URL;
@@ -32,18 +31,12 @@ public class EditorController implements Initializable{
 	private Button save;
 
 	@FXML
-	private TextField txtMana;
-
-	@FXML
-	private TextField txtCasting;
-
-	@FXML
-	private TextField txtGold;
-
-	@FXML
 	public VBox abilityBox;
 
 	private SaveGame saveGame;
+
+	@FXML
+	public TableView<SaveGameEntryInterface> tbl_base;
 
 	@FXML
 	public TableView<SaveGameEntryInterface> tbl_nature;
@@ -93,22 +86,18 @@ public class EditorController implements Initializable{
 	}
 
 	public void onSave(ActionEvent event) {
-		setValuesFromControls();
 		saveGame.save();
 
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
 		alert.setTitle("Game saved");
-		alert.setHeaderText("Game saved");
 		alert.setContentText("Your game has been saved :-)");
 		alert.show();
 	}
 
 	private void setValuesToControls() {
-		txtGold.setText(String.valueOf(saveGame.gold()));
-		txtCasting.setText(String.valueOf(saveGame.castingSkill()));
-		txtMana.setText(String.valueOf(saveGame.mana()));
-
 		updateCheckboxesWithValues(saveGame.getAbilities(), abilityBox);
+
+		initBaseValues(saveGame.getBase(), tbl_base);
 
 		initTable(saveGame.getLife(), tbl_life);
 		initTable(saveGame.getDeath(), tbl_death);
@@ -116,10 +105,6 @@ public class EditorController implements Initializable{
 		initTable(saveGame.getSorcery(), tbl_sorcery);
 		initTable(saveGame.getChaos(), tbl_chaos);
 		initTable(saveGame.getArcane(), tbl_arcane);
-	}
-
-	private void setValuesFromControls() {
-		saveGame.setGold(Integer.parseInt(txtGold.getText()));
 	}
 
 	private static void configureFileChooser(final FileChooser fileChooser) {
@@ -138,7 +123,8 @@ public class EditorController implements Initializable{
 	private void initCheckBoxesFromMap(Map<String, String> map, VBox vbox) {
 		vbox.setFillWidth(false);
 		map.forEach((name, offset) -> {
-			CheckBox cb = new CheckBox(offset);
+			CheckBox cb = new CheckBox();
+			cb.setId(offset);
 			cb.setText(name);
 			cb.setSelected(false);
 			vbox.getChildren().add(cb);
@@ -153,6 +139,28 @@ public class EditorController implements Initializable{
 				((CheckBox) cb).setOnAction(this::handleCheckboxUpdate);
 			}
 		}
+	}
+
+	private void initBaseValues(List<SaveGameEntryInterface> map, TableView<SaveGameEntryInterface> table) {
+		table.getColumns().removeAll(table.getColumns());
+		table.setEditable(true);
+
+		TableColumn<SaveGameEntryInterface, String> column1 = new TableColumn<>("name");
+		column1.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+		TableColumn<SaveGameEntryInterface, Integer> column2 = new TableColumn<>("value");
+		column2.setCellValueFactory(new PropertyValueFactory<>("value"));
+		column2.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+		column2.setOnEditCommit(event -> {
+			SaveGameEntryInterface save = event.getTableView().getItems().get(event.getTablePosition().getRow());
+			save.setValue(event.getNewValue());
+			saveGame.writeOffset(save.getHexOffset(), 2, event.getNewValue());
+		});
+		column2.setEditable(true);
+
+		table.getColumns().add(column1);
+		table.getColumns().add(column2);
+		table.getItems().addAll(map);
 	}
 
 	private void initTable(List<SaveGameEntryInterface> map, TableView<SaveGameEntryInterface> table) {
@@ -170,14 +178,8 @@ public class EditorController implements Initializable{
 			saveGame.writeSingleValOffset(save.getHexOffset(), event.getNewValue());
 		});
 
-		/*TableColumn<SaveGameEntryInterface, String> column3 = new TableColumn<>("offset");
-		column3.setCellValueFactory(new PropertyValueFactory<>("hexOffset"));
-		column3.setCellFactory(TextFieldTableCell.<SaveGameEntryInterface>forTableColumn());
-		column3.setVisible(false); // just needed for debugging*/
-
 		table.getColumns().add(column1);
 		table.getColumns().add(column2);
-		//table.getColumns().add(column3);
 		table.getItems().addAll(map);
 	}
 }

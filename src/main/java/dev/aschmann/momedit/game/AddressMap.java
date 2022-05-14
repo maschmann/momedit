@@ -61,15 +61,10 @@ public class AddressMap {
     }
 
     private void initBase() {
-        /*
-            C44-C45 Change Mana (enter 3075)
-            C46-C48 Casting Skill(Personal)
-            D3E-D3F Change Money or Gold (enter 3075)
-            D40-D42 Casting Skill(Adjusted)
-        */
         base.put("Mana", "C44");
         base.put("Casting Skill", "C46");
         base.put("Money", "D3E");
+        base.put("Casting Skill adj.", "D40");
     }
 
     private void initBooks() {
