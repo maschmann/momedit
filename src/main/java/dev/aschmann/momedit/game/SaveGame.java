@@ -2,15 +2,14 @@ package dev.aschmann.momedit.game;
 
 import com.google.common.io.BaseEncoding;
 import dev.aschmann.momedit.game.models.*;
-import javafx.collections.ObservableList;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SaveGame {
 
@@ -64,7 +63,7 @@ public class SaveGame {
             reverseByteArray(byteValues);
         }
 
-        return BaseEncoding.base16().encode(byteValues).toString();
+        return BaseEncoding.base16().encode(byteValues);
     }
 
     public void writeOffset(String offsetStart, int length, int value) {
@@ -137,17 +136,13 @@ public class SaveGame {
     }
 
     private List<SaveGameEntryInterface> createList(Map<String, String> map, int length) {
-        List<SaveGameEntryInterface> list = new ArrayList<SaveGameEntryInterface>();
-        map.forEach((name, offset) -> {
-            list.add(
-                new ListItem(
-                    name,
-                    offset,
-                    Integer.parseInt(findOffset(offset, length), 16)
-                )
-            );
-        });
-
-        return list;
+        return map.entrySet()
+            .stream()
+            .map(entry -> new ListItem(
+                entry.getKey(),
+                entry.getValue(),
+                Integer.parseInt(findOffset(entry.getValue(), length), 16)
+            ))
+            .collect(Collectors.toCollection(ArrayList<SaveGameEntryInterface>::new));
     }
 }
