@@ -1,0 +1,19 @@
+---
+
+- { name: "Alchemy", hexOffset: A4C, length: 1, defaultValue: 0 }
+- { name: "Warlord", hexOffset: A4D, length: 1, defaultValue: 0 }
+- { name: "Chaos Master", hexOffset: A4E, length: 1, defaultValue: 0 }
+- { name: "Nature Master", hexOffset: A4F, length: 1, defaultValue: 0 }
+- { name: "Sorcery Master", hexOffset: A50, length: 1, defaultValue: 0 }
+- { name: "Infernal Power", hexOffset: A51, length: 1, defaultValue: 0 }
+- { name: "Divine Power", hexOffset: A52, length: 1, defaultValue: 0 }
+- { name: "Sage Master", hexOffset: A53, length: 1, defaultValue: 0 }
+- { name: "Channeller", hexOffset: A54, length: 1, defaultValue: 0 }
+- { name: "Archmage", hexOffset: A56, length: 1, defaultValue: 0 }
+- { name: "Mana Focusing", hexOffset: A57, length: 1, defaultValue: 0 }
+- { name: "Node Mastery", hexOffset: A58, length: 1, defaultValue: 0 }
+- { name: "Famous", hexOffset: A59, length: 1, defaultValue: 0 }
+- { name: "Runemaster", hexOffset: A5A, length: 1, defaultValue: 0 }
+- { name: "Conjurer", hexOffset: A5B, length: 1, defaultValue: 0 }
+- { name: "Charismatic", hexOffset: A5C, length: 1, defaultValue: 0 }
+- { name: "Artificer", hexOffset: A5D, length: 1, defaultValue: 0 }

@@ -1,0 +1,15 @@
+---
+- { name: "Magic Spirit", hexOffset: D14, length: 1, defaultValue: 0 }
+- { name: "Dispel Magic", hexOffset: D15, length: 1, defaultValue: 0 }
+- { name: "Summoning Circle", hexOffset: D16, length: 1, defaultValue: 0 }
+- { name: "Disenchant Area", hexOffset: D17, length: 1, defaultValue: 0 }
+- { name: "Recall Hero", hexOffset: D18, length: 1, defaultValue: 0 }
+- { name: "Detect Magic", hexOffset: D19, length: 1, defaultValue: 0 }
+- { name: "Enchant Item", hexOffset: D1A, length: 1, defaultValue: 0 }
+- { name: "Summon Hero", hexOffset: D1B, length: 1, defaultValue: 0 }
+- { name: "Awareness", hexOffset: D1C, length: 1, defaultValue: 0 }
+- { name: "Disjunction", hexOffset: D1D, length: 1, defaultValue: 0 }
+- { name: "Create Artifact", hexOffset: D1E, length: 1, defaultValue: 0 }
+- { name: "Summon Champion", hexOffset: D1F, length: 1, defaultValue: 0 }
+- { name: "Spell of Mastery", hexOffset: D20, length: 1, defaultValue: 0 }
+- { name: "Spell of Return", hexOffset: D21, length: 1, defaultValue: 0 }

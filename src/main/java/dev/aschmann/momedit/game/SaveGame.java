@@ -16,6 +16,16 @@ public class SaveGame {
     /* bytes per hex line */
     private static final int BYTES_PER_LINE = 16;
 
+    private static final String ARTIFACT_OFFSET_START = "6FB8";
+
+    private static final String ARTIFACT_OFFSET_LENGTH = "32";
+
+    private static final String CITY_OFFSET_START = "8AAC";
+
+    private static final String CITY_OFFSET_LENGTH = "72";
+
+    private final SaveGameDataLoader loader;
+
     private final AddressMap addressMap;
 
     private Path path;
@@ -26,8 +36,8 @@ public class SaveGame {
     private byte[] fileBytes;
 
     public SaveGame() {
-        //@todo move to bean if DI added
         addressMap = new AddressMap();
+        loader = new SaveGameDataLoader();
     }
 
     public static void main() {
@@ -96,43 +106,52 @@ public class SaveGame {
     }
 
     public List<SaveGameEntryInterface> getBase() {
-        return createList(addressMap.base(), 2);
+        return loadDataMapList(SaveGameDataLoader.BASE_TYPE);
     }
 
     public List<SaveGameEntryInterface> getAbilities() {
-        return createList(addressMap.abilities(), 1);
+        return loadDataMapList(SaveGameDataLoader.ABILITIES_TYPE);
     }
 
     public List<SaveGameEntryInterface> getNature() {
-        return createList(addressMap.nature(), 1);
+        return loadDataMapList(SaveGameDataLoader.NATURE_SPELLS_TYPE);
     }
 
     public List<SaveGameEntryInterface> getSorcery() {
-        return createList(addressMap.sorcery(), 1);
+        return loadDataMapList(SaveGameDataLoader.SORCERY_SPELLS_TYPE);
     }
 
     public List<SaveGameEntryInterface> getChaos() {
-        return createList(addressMap.chaos(), 1);
+        return loadDataMapList(SaveGameDataLoader.CHAOS_SPELLS_TYPE);
     }
 
     public List<SaveGameEntryInterface> getLife() {
-        return createList(addressMap.life(), 1);
+        return loadDataMapList(SaveGameDataLoader.LIFE_SPELLS_TYPE);
     }
 
     public List<SaveGameEntryInterface> getDeath() {
-        return createList(addressMap.death(), 1);
+        return loadDataMapList(SaveGameDataLoader.DEATH_SPELLS_TYPE);
     }
 
     public List<SaveGameEntryInterface> getArcane() {
-        return createList(addressMap.arcane(), 1);
+        return loadDataMapList(SaveGameDataLoader.ARCANE_SPELLS_TYPE);
     }
 
-    /**
-     * for convenience we're breaking some rules and expose inner objects and domain knowledge
-     * more or less directly.
-     */
-    public AddressMap getAddressMap() {
-        return addressMap;
+    public Map<String, String> getAbilityMap() {
+        // refactor? maybe better to move to same logic
+        return addressMap.abilities();
+    }
+
+    private List<SaveGameEntryInterface> loadDataMapList(String type) {
+        try {
+            return loader.loadData(type).stream()
+                .peek(item -> item.setValue(
+                    Integer.parseInt(findOffset(item.getHexOffset(), item.getLength()), 16)
+                ))
+                .collect(Collectors.toCollection(ArrayList<SaveGameEntryInterface>::new));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private List<SaveGameEntryInterface> createList(Map<String, String> map, int length) {

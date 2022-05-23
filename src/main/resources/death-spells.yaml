@@ -1,0 +1,41 @@
+---
+- { name: "Skeletons", hexOffset: CEC, length: 1, defaultValue: 0 }
+- { name: "Weakness", hexOffset: CED, length: 1, defaultValue: 0 }
+- { name: "Dark Rituals", hexOffset: CEE, length: 1, defaultValue: 0 }
+- { name: "Cloak of Fear", hexOffset: CEF, length: 1, defaultValue: 0 }
+- { name: "Black Sleep", hexOffset: CF0, length: 1, defaultValue: 0 }
+- { name: "Ghouls", hexOffset: CF1, length: 1, defaultValue: 0 }
+- { name: "Life Drain", hexOffset: CF2, length: 1, defaultValue: 0 }
+- { name: "Terror", hexOffset: CF3, length: 1, defaultValue: 0 }
+- { name: "Darkness", hexOffset: CF4, length: 1, defaultValue: 0 }
+- { name: "Mana Leak", hexOffset: CF5, length: 1, defaultValue: 0 }
+- { name: "Drain Power", hexOffset: CF6, length: 1, defaultValue: 0 }
+- { name: "Possession", hexOffset: CF7, length: 1, defaultValue: 0 }
+- { name: "Lycanthropy", hexOffset: CF8, length: 1, defaultValue: 0 }
+- { name: "Black Prayer", hexOffset: CF9, length: 1, defaultValue: 0 }
+- { name: "Black Channels", hexOffset: CFA, length: 1, defaultValue: 0 }
+- { name: "Night Stalker", hexOffset: CFB, length: 1, defaultValue: 0 }
+- { name: "Subversion", hexOffset: CFC, length: 1, defaultValue: 0 }
+- { name: "Wall of Darkness", hexOffset: CFD, length: 1, defaultValue: 0 }
+- { name: "Berserk", hexOffset: CFE, length: 1, defaultValue: 0 }
+- { name: "Shadow Demons", hexOffset: CFF, length: 1, defaultValue: 0 }
+- { name: "Wraith Form", hexOffset: D00, length: 1, defaultValue: 0 }
+- { name: "Wrack", hexOffset: D01, length: 1, defaultValue: 0 }
+- { name: "Evil Presence", hexOffset: D02, length: 1, defaultValue: 0 }
+- { name: "Wraiths", hexOffset: D03, length: 1, defaultValue: 0 }
+- { name: "Cloud of Shadow", hexOffset: D04, length: 1, defaultValue: 0 }
+- { name: "Warp Node", hexOffset: D05, length: 1, defaultValue: 0 }
+- { name: "Black Wind", hexOffset: D06, length: 1, defaultValue: 0 }
+- { name: "Zombie Mastery", hexOffset: D07, length: 1, defaultValue: 0 }
+- { name: "Famine", hexOffset: D08, length: 1, defaultValue: 0 }
+- { name: "Cursed lands", hexOffset: D09, length: 1, defaultValue: 0 }
+- { name: "Cruel Unminding", hexOffset: D0A, length: 1, defaultValue: 0 }
+- { name: "Word of Death", hexOffset: D0B, length: 1, defaultValue: 0 }
+- { name: "Death Knights", hexOffset: D0C, length: 1, defaultValue: 0 }
+- { name: "Death Spell", hexOffset: D0D, length: 1, defaultValue: 0 }
+- { name: "Animate Dead", hexOffset: D0E, length: 1, defaultValue: 0 }
+- { name: "Pestilence", hexOffset: D0F, length: 1, defaultValue: 0 }
+- { name: "Eternal Night", hexOffset: D10, length: 1, defaultValue: 0 }
+- { name: "Evil Omens", hexOffset: D11, length: 1, defaultValue: 0 }
+- { name: "Death Wish", hexOffset: D12, length: 1, defaultValue: 0 }
+- { name: "Demon Lord", hexOffset: D13, length: 1, defaultValue: 0 }

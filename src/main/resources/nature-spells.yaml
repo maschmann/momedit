@@ -1,0 +1,41 @@
+---
+- { name: "Earth to Mud", hexOffset: C4C, length: 1, defaultValue: 0 }
+- { name: "Resist Elements", hexOffset: C4D, length: 1, defaultValue: 0 }
+- { name: "Wall Of Stone", hexOffset: C4E, length: 1, defaultValue: 0 }
+- { name: "Giant Strength", hexOffset: C4F, length: 1, defaultValue: 0 }
+- { name: "Web", hexOffset: C50, length: 1, defaultValue: 0 }
+- { name: "War Bears", hexOffset: C51, length: 1, defaultValue: 0 }
+- { name: "Stone Skin", hexOffset: C52, length: 1, defaultValue: 0 }
+- { name: "Water Walking", hexOffset: C53, length: 1, defaultValue: 0 }
+- { name: "Sprites", hexOffset: C54, length: 1, defaultValue: 0 }
+- { name: "Earth lore", hexOffset: C55, length: 1, defaultValue: 0 }
+- { name: "Cracks Call", hexOffset: C56, length: 1, defaultValue: 0 }
+- { name: "Natures eye", hexOffset: C57, length: 1, defaultValue: 0 }
+- { name: "Ice Bolt", hexOffset: C58, length: 1, defaultValue: 0 }
+- { name: "Giant Spiders", hexOffset: C59, length: 1, defaultValue: 0 }
+- { name: "Change Terrain", hexOffset: C5A, length: 1, defaultValue: 0 }
+- { name: "Pathfinding", hexOffset: C5B, length: 1, defaultValue: 0 }
+- { name: "Cockatrices", hexOffset: C5C, length: 1, defaultValue: 0 }
+- { name: "Transmute", hexOffset: C5D, length: 1, defaultValue: 0 }
+- { name: "Natures Cures", hexOffset: C5E, length: 1, defaultValue: 0 }
+- { name: "Basilisk", hexOffset: C5F, length: 1, defaultValue: 0 }
+- { name: "Elemental Armor", hexOffset: C60, length: 1, defaultValue: 0 }
+- { name: "Petrify", hexOffset: C61, length: 1, defaultValue: 0 }
+- { name: "Stone Giant", hexOffset: C62, length: 1, defaultValue: 0 }
+- { name: "Iron Skin", hexOffset: C63, length: 1, defaultValue: 0 }
+- { name: "Ice Storm", hexOffset: C64, length: 1, defaultValue: 0 }
+- { name: "Earthquake", hexOffset: C65, length: 1, defaultValue: 0 }
+- { name: "Gorgons", hexOffset: C66, length: 1, defaultValue: 0 }
+- { name: "Move Fortress", hexOffset: C67, length: 1, defaultValue: 0 }
+- { name: "Gaia's Blessing", hexOffset: C68, length: 1, defaultValue: 0 }
+- { name: "Earth Elemental", hexOffset: C69, length: 1, defaultValue: 0 }
+- { name: "Regeneration", hexOffset: C6A, length: 1, defaultValue: 0 }
+- { name: "Behemoth", hexOffset: C6B, length: 1, defaultValue: 0 }
+- { name: "Entangle", hexOffset: C6C, length: 1, defaultValue: 0 }
+- { name: "Natures Awareness", hexOffset: C6D, length: 1, defaultValue: 0 }
+- { name: "Call Lighting", hexOffset: C6E, length: 1, defaultValue: 0 }
+- { name: "Colossus", hexOffset: C6F, length: 1, defaultValue: 0 }
+- { name: "Earth Gate", hexOffset: C70, length: 1, defaultValue: 0 }
+- { name: "Herb Mastery", hexOffset: C71, length: 1, defaultValue: 0 }
+- { name: "Great Wyrm", hexOffset: C72, length: 1, defaultValue: 0 }
+- { name: "Nature's Wrath", hexOffset: C73, length: 1, defaultValue: 0 }

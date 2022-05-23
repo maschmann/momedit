@@ -59,7 +59,7 @@ public class EditorController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		saveGame = new SaveGame();
-		initCheckBoxesFromMap(saveGame.getAddressMap().abilities(), abilityBox);
+		initCheckBoxesFromMap(saveGame.getAbilityMap(), abilityBox);
 	}
 
 	@FXML
@@ -145,9 +145,6 @@ public class EditorController implements Initializable{
 		table.getColumns().removeAll(table.getColumns());
 		table.setEditable(true);
 
-		TableColumn<SaveGameEntryInterface, String> column1 = new TableColumn<>("name");
-		column1.setCellValueFactory(new PropertyValueFactory<>("name"));
-
 		TableColumn<SaveGameEntryInterface, Integer> column2 = new TableColumn<>("value");
 		column2.setCellValueFactory(new PropertyValueFactory<>("value"));
 		column2.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
@@ -158,16 +155,13 @@ public class EditorController implements Initializable{
 		});
 		column2.setEditable(true);
 
-		table.getColumns().add(column1);
+		table.getColumns().add(createStringColumn("name", "name"));
 		table.getColumns().add(column2);
 		table.getItems().addAll(map);
 	}
 
 	private void initTable(List<SaveGameEntryInterface> map, TableView<SaveGameEntryInterface> table) {
 		table.getColumns().removeAll(table.getColumns());
-
-		TableColumn<SaveGameEntryInterface, String> column1 = new TableColumn<>("spell");
-		column1.setCellValueFactory(new PropertyValueFactory<>("name"));
 
 		TableColumn<SaveGameEntryInterface, Integer> column2 = new TableColumn<>("value");
 		column2.setCellValueFactory(new PropertyValueFactory<>("value"));
@@ -178,8 +172,15 @@ public class EditorController implements Initializable{
 			saveGame.writeSingleValOffset(save.getHexOffset(), event.getNewValue());
 		});
 
-		table.getColumns().add(column1);
+		table.getColumns().add(createStringColumn("spell", "name"));
 		table.getColumns().add(column2);
 		table.getItems().addAll(map);
+	}
+
+	private TableColumn<SaveGameEntryInterface, String> createStringColumn(String type, String name) {
+		TableColumn<SaveGameEntryInterface, String> column = new TableColumn<>(type);
+		column.setCellValueFactory(new PropertyValueFactory<>(name));
+
+		return column;
 	}
 }

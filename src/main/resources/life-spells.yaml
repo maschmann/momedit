@@ -1,0 +1,41 @@
+---
+- { name: "Bless", hexOffset: CC4, length: 1, defaultValue: 0 }
+- { name: "Star Fires", hexOffset: CCB, length: 1, defaultValue: 0 }
+- { name: "Endurance", hexOffset: CC6, length: 1, defaultValue: 0 }
+- { name: "Holy Weapon", hexOffset: CC7, length: 1, defaultValue: 0 }
+- { name: "Healing", hexOffset: CC8, length: 1, defaultValue: 0 }
+- { name: "Holy Armor", hexOffset: CC9, length: 1, defaultValue: 0 }
+- { name: "Just Cause", hexOffset: CCA, length: 1, defaultValue: 0 }
+- { name: "True Light", hexOffset: CCB, length: 1, defaultValue: 0 }
+- { name: "Guardian Spirit", hexOffset: CCC, length: 1, defaultValue: 0 }
+- { name: "Heroism", hexOffset: CCD, length: 1, defaultValue: 0 }
+- { name: "True Sight", hexOffset: CCE, length: 1, defaultValue: 0 }
+- { name: "Plane Shift", hexOffset: CCF, length: 1, defaultValue: 0 }
+- { name: "Resurrection", hexOffset: CD0, length: 1, defaultValue: 0 }
+- { name: "Dispel Evil", hexOffset: CD1, length: 1, defaultValue: 0 }
+- { name: "Planar Seal", hexOffset: CD2, length: 1, defaultValue: 0 }
+- { name: "Unicorns", hexOffset: CD3, length: 1, defaultValue: 0 }
+- { name: "Raise Dead", hexOffset: CD4, length: 1, defaultValue: 0 }
+- { name: "Planar Travel", hexOffset: CD5, length: 1, defaultValue: 0 }
+- { name: "Heavenly Light", hexOffset: CD6, length: 1, defaultValue: 0 }
+- { name: "Prayer", hexOffset: CD7, length: 1, defaultValue: 0 }
+- { name: "Lionhearted", hexOffset: CD8, length: 1, defaultValue: 0 }
+- { name: "Incarnation", hexOffset: CD9, length: 1, defaultValue: 0 }
+- { name: "Invulnerability", hexOffset: CDA, length: 1, defaultValue: 0 }
+- { name: "Righteousness", hexOffset: CDB, length: 1, defaultValue: 0 }
+- { name: "Prosperity", hexOffset: CDC, length: 1, defaultValue: 0 }
+- { name: "Alter of Battle", hexOffset: CDD, length: 1, defaultValue: 0 }
+- { name: "Angel", hexOffset: CDE, length: 1, defaultValue: 0 }
+- { name: "Stream of Life", hexOffset: CDF, length: 1, defaultValue: 0 }
+- { name: "Mass Healing", hexOffset: CE0, length: 1, defaultValue: 0 }
+- { name: "Holy Word", hexOffset: CE1, length: 1, defaultValue: 0 }
+- { name: "High Prayer", hexOffset: CE2, length: 1, defaultValue: 0 }
+- { name: "Inspirations", hexOffset: CE3, length: 1, defaultValue: 0 }
+- { name: "Astral Gate", hexOffset: CE4, length: 1, defaultValue: 0 }
+- { name: "Holy Arms", hexOffset: CE5, length: 1, defaultValue: 0 }
+- { name: "Consecration", hexOffset: CE6, length: 1, defaultValue: 0 }
+- { name: "Life Force", hexOffset: CE7, length: 1, defaultValue: 0 }
+- { name: "Tranquility", hexOffset: CE8, length: 1, defaultValue: 0 }
+- { name: "Crusade", hexOffset: CE9, length: 1, defaultValue: 0 }
+- { name: "Arch Angel", hexOffset: CEA, length: 1, defaultValue: 0 }
+- { name: "Charm of Life", hexOffset: CEB, length: 1, defaultValue: 0 }

@@ -1,0 +1,41 @@
+---
+- { name: "Warp Wood", hexOffset: C9C, length: 1, defaultValue: 0 }
+- { name: "Disrupt", hexOffset: C9D, length: 1, defaultValue: 0 }
+- { name: "Fire Bolt", hexOffset: C9E, length: 1, defaultValue: 0 }
+- { name: "Hell Hounds", hexOffset: C9F, length: 1, defaultValue: 0 }
+- { name: "Corruption", hexOffset: CA0, length: 1, defaultValue: 0 }
+- { name: "Eldritch Weapon", hexOffset: CA1, length: 1, defaultValue: 0 }
+- { name: "Wall of Fire", hexOffset: CA2, length: 1, defaultValue: 0 }
+- { name: "Shatter", hexOffset: CA3, length: 1, defaultValue: 0 }
+- { name: "Warp Creature", hexOffset: CA4, length: 1, defaultValue: 0 }
+- { name: "Fire Elemental", hexOffset: CA5, length: 1, defaultValue: 0 }
+- { name: "Lightning Bolt", hexOffset: CA6, length: 1, defaultValue: 0 }
+- { name: "Fire Giant", hexOffset: CA7, length: 1, defaultValue: 0 }
+- { name: "Chaos Channels", hexOffset: CA8, length: 1, defaultValue: 0 }
+- { name: "Flame Blade", hexOffset: CA9, length: 1, defaultValue: 0 }
+- { name: "Gargoyles", hexOffset: CAA, length: 1, defaultValue: 0 }
+- { name: "Fireball", hexOffset: CAB, length: 1, defaultValue: 0 }
+- { name: "Doombat", hexOffset: CAC, length: 1, defaultValue: 0 }
+- { name: "Raise Volcano", hexOffset: CAD, length: 1, defaultValue: 0 }
+- { name: "Immolation", hexOffset: CAE, length: 1, defaultValue: 0 }
+- { name: "Chimeras", hexOffset: CAF, length: 1, defaultValue: 0 }
+- { name: "Warp Lightning", hexOffset: CB0, length: 1, defaultValue: 0 }
+- { name: "Metal Fires", hexOffset: CB1, length: 1, defaultValue: 0 }
+- { name: "Chaos Spawn", hexOffset: CB2, length: 1, defaultValue: 0 }
+- { name: "Doom Bolt", hexOffset: CB3, length: 1, defaultValue: 0 }
+- { name: "Magic Vortex", hexOffset: CB4, length: 1, defaultValue: 0 }
+- { name: "Efreet", hexOffset: CB5, length: 1, defaultValue: 0 }
+- { name: "Fire Storm", hexOffset: CB6, length: 1, defaultValue: 0 }
+- { name: "Warp Reality", hexOffset: CB7, length: 1, defaultValue: 0 }
+- { name: "Flame Strike", hexOffset: CB8, length: 1, defaultValue: 0 }
+- { name: "Chaos Rift", hexOffset: CB9, length: 1, defaultValue: 0 }
+- { name: "Hydra", hexOffset: CBA, length: 1, defaultValue: 0 }
+- { name: "Disintegrate", hexOffset: CBB, length: 1, defaultValue: 0 }
+- { name: "Meteor Storm", hexOffset: CBC, length: 1, defaultValue: 0 }
+- { name: "Great Wasting", hexOffset: CBD, length: 1, defaultValue: 0 }
+- { name: "Call Chaos", hexOffset: CBE, length: 1, defaultValue: 0 }
+- { name: "Chaos Surge", hexOffset: CBF, length: 1, defaultValue: 0 }
+- { name: "Doom Mastery", hexOffset: CC0, length: 1, defaultValue: 0 }
+- { name: "Great Drake", hexOffset: CC1, length: 1, defaultValue: 0 }
+- { name: "Call the Void", hexOffset: CC2, length: 1, defaultValue: 0 }
+- { name: "Armageddon", hexOffset: CC3, length: 1, defaultValue: 0 }

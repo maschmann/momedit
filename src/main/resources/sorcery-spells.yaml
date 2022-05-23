@@ -1,0 +1,41 @@
+---
+- { name: "Resist Magic", hexOffset: C74, length: 1, defaultValue: 0 }
+- { name: "Dispel Magic True", hexOffset: C75, length: 1, defaultValue: 0 }
+- { name: "Floating Island", hexOffset: C76, length: 1, defaultValue: 0 }
+- { name: "Guardian Wind", hexOffset: C77, length: 1, defaultValue: 0 }
+- { name: "Phantom Warriors", hexOffset: C78, length: 1, defaultValue: 0 }
+- { name: "Confusion", hexOffset: C79, length: 1, defaultValue: 0 }
+- { name: "Word of Recall", hexOffset: C7A, length: 1, defaultValue: 0 }
+- { name: "Counter Magic", hexOffset: C7B, length: 1, defaultValue: 0 }
+- { name: "Nagas", hexOffset: C7C, length: 1, defaultValue: 0 }
+- { name: "Psionic Blast", hexOffset: C7D, length: 1, defaultValue: 0 }
+- { name: "Blur", hexOffset: C7E, length: 1, defaultValue: 0 }
+- { name: "Disenchant True", hexOffset: C7F, length: 1, defaultValue: 0 }
+- { name: "Vertigo", hexOffset: C80, length: 1, defaultValue: 0 }
+- { name: "Spell Lock", hexOffset: C81, length: 1, defaultValue: 0 }
+- { name: "Enchant Road", hexOffset: C82, length: 1, defaultValue: 0 }
+- { name: "Flight", hexOffset: C83, length: 1, defaultValue: 0 }
+- { name: "Wind Mastery", hexOffset: C84, length: 1, defaultValue: 0 }
+- { name: "Spell Blast", hexOffset: C85, length: 1, defaultValue: 0 }
+- { name: "Aura of Mastery", hexOffset: C86, length: 1, defaultValue: 0 }
+- { name: "Phantom Beast", hexOffset: C87, length: 1, defaultValue: 0 }
+- { name: "Disjuntion True", hexOffset: C88, length: 1, defaultValue: 0 }
+- { name: "Invisibility", hexOffset: C89, length: 1, defaultValue: 0 }
+- { name: "Wind Walking", hexOffset: C8A, length: 1, defaultValue: 0 }
+- { name: "Banish", hexOffset: C8B, length: 1, defaultValue: 0 }
+- { name: "Storm Giant", hexOffset: C8C, length: 1, defaultValue: 0 }
+- { name: "Air Elemental", hexOffset: C8D, length: 1, defaultValue: 0 }
+- { name: "Mind Storm", hexOffset: C8E, length: 1, defaultValue: 0 }
+- { name: "Stasis", hexOffset: C8F, length: 1, defaultValue: 0 }
+- { name: "Magic Immunity", hexOffset: C90, length: 1, defaultValue: 0 }
+- { name: "Haste", hexOffset: C91, length: 1, defaultValue: 0 }
+- { name: "Djinn", hexOffset: C92, length: 1, defaultValue: 0 }
+- { name: "Spell Ward", hexOffset: C93, length: 1, defaultValue: 0 }
+- { name: "Creature Binding", hexOffset: C94, length: 1, defaultValue: 0 }
+- { name: "Mass Invisibility", hexOffset: C95, length: 1, defaultValue: 0 }
+- { name: "Great UnSummoning", hexOffset: C96, length: 1, defaultValue: 0 }
+- { name: "Spell Binding", hexOffset: C97, length: 1, defaultValue: 0 }
+- { name: "Flying Fortress", hexOffset: C98, length: 1, defaultValue: 0 }
+- { name: "Sky Drake", hexOffset: C99, length: 1, defaultValue: 0 }
+- { name: "Suppress Magic", hexOffset: C9A, length: 1, defaultValue: 0 }
+- { name: "Time Stop", hexOffset: C9B, length: 1, defaultValue: 0 }

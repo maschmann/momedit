@@ -1,0 +1,5 @@
+---
+- { name: "Change Mana", hexOffset: C44, length: 2, defaultValue: 255 }
+- { name: "Casting Skill pers", hexOffset: C46, length: 2, defaultValue: 0 }
+- { name: "Change Money or Gold", hexOffset: D3E, length: 2, defaultValue: 75 }
+- { name: "Casting Skill adj", hexOffset: D40, length: 2, defaultValue: 0 }
