@@ -20,13 +20,13 @@ public class SaveGame {
 
     private static final String ARTIFACT_OFFSET_LENGTH = "32";
 
+    private static final int ARTIFACT_MAX_AMOUNT = 132;
+
     private static final String CITY_OFFSET_START = "8AAC";
 
     private static final String CITY_OFFSET_LENGTH = "72";
 
-    private final SaveGameDataLoader loader;
-
-    private final AddressMap addressMap;
+    private final SaveGameMappingLoader loader;
 
     private Path path;
 
@@ -36,8 +36,7 @@ public class SaveGame {
     private byte[] fileBytes;
 
     public SaveGame() {
-        addressMap = new AddressMap();
-        loader = new SaveGameDataLoader();
+        loader = new SaveGameMappingLoader();
     }
 
     public static void main() {
@@ -77,13 +76,8 @@ public class SaveGame {
     }
 
     public void writeOffset(String offsetStart, int length, int value) {
-        // decode only takes uppercase hex values for ... reasons
-        String hexval = Integer.toHexString(value).toUpperCase();
-        if (((length * 2) - hexval.length()) == 1) { // add padding or BaseEncoding will break
-            hexval = "0" + hexval;
-        }
         try {
-            byte[] byteValues = BaseEncoding.base16().decode(hexval);
+            byte[] byteValues = BaseEncoding.base16().decode(intToPaddedHex(value));
             int offsetInt = Integer.parseInt(offsetStart, 16);
             if (length > 1) { // little endian again
                 reverseByteArray(byteValues);
@@ -106,45 +100,93 @@ public class SaveGame {
     }
 
     public List<SaveGameEntryInterface> getBase() {
-        return loadDataMapList(SaveGameDataLoader.BASE_TYPE);
+        return loadMapWithData(SaveGameMappingLoader.BASE_TYPE);
     }
 
     public List<SaveGameEntryInterface> getAbilities() {
-        return loadDataMapList(SaveGameDataLoader.ABILITIES_TYPE);
+        return loadMapWithData(SaveGameMappingLoader.ABILITIES_TYPE);
     }
 
     public List<SaveGameEntryInterface> getNature() {
-        return loadDataMapList(SaveGameDataLoader.NATURE_SPELLS_TYPE);
+        return loadMapWithData(SaveGameMappingLoader.NATURE_SPELLS_TYPE);
     }
 
     public List<SaveGameEntryInterface> getSorcery() {
-        return loadDataMapList(SaveGameDataLoader.SORCERY_SPELLS_TYPE);
+        return loadMapWithData(SaveGameMappingLoader.SORCERY_SPELLS_TYPE);
     }
 
     public List<SaveGameEntryInterface> getChaos() {
-        return loadDataMapList(SaveGameDataLoader.CHAOS_SPELLS_TYPE);
+        return loadMapWithData(SaveGameMappingLoader.CHAOS_SPELLS_TYPE);
     }
 
     public List<SaveGameEntryInterface> getLife() {
-        return loadDataMapList(SaveGameDataLoader.LIFE_SPELLS_TYPE);
+        return loadMapWithData(SaveGameMappingLoader.LIFE_SPELLS_TYPE);
     }
 
     public List<SaveGameEntryInterface> getDeath() {
-        return loadDataMapList(SaveGameDataLoader.DEATH_SPELLS_TYPE);
+        return loadMapWithData(SaveGameMappingLoader.DEATH_SPELLS_TYPE);
     }
 
     public List<SaveGameEntryInterface> getArcane() {
-        return loadDataMapList(SaveGameDataLoader.ARCANE_SPELLS_TYPE);
+        return loadMapWithData(SaveGameMappingLoader.ARCANE_SPELLS_TYPE);
     }
 
     public Map<String, String> getAbilityMap() {
-        // refactor? maybe better to move to same logic
-        return addressMap.abilities();
+        try {
+            return loader.loadMap(SaveGameMappingLoader.ABILITIES_TYPE).stream()
+                .collect(Collectors.toMap(
+                    SaveGameEntryInterface::getName, SaveGameEntryInterface::getHexOffset
+                ));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private List<SaveGameEntryInterface> loadDataMapList(String type) {
+    /*public List<Artifact> getArtifacts() {
+
+    }*/
+
+    private List<Artifact> loadArtifacts() {
+        int offsetCalculated = (Integer.parseInt(ARTIFACT_OFFSET_START) * Integer.parseInt(ARTIFACT_OFFSET_LENGTH));
+        List<Artifact> artifacts = new ArrayList<>();
+        // get all artifacts
+        for (int i = 0; i < ARTIFACT_MAX_AMOUNT; i++) {
+            // calculate the offsets per iteration
+            int currentOffsetStart = ((i + 1) * offsetCalculated);
+            artifacts.add(
+                createArtifact(currentOffsetStart, i)
+            );
+        }
+
+        return artifacts;
+    }
+
+    private Artifact createArtifact(int offsetStart, int id) {
+        Artifact artifact = new Artifact(id);
+        // first value's address
+        /*String baseOffset = Integer.toHexString(
+            offsetStart + Integer.parseInt("30", 16)
+        ).toUpperCase();
+        //findOffset();
+        artifact.setGraphics(findOffset());
+        artifact.setType();
+        artifact.setManaPrice();
+        artifact.setAttackBonus();
+        artifact.setHitBonus();
+        artifact.setDefenseBonus();
+        artifact.setMovementBonus();
+        artifact.setResistanceBonus();
+        artifact.setSpellSkill();
+        artifact.setSpellSave();
+        artifact.setSpell();
+        artifact.setSpellCharges();*/
+
+        return artifact;
+    }
+
+    private List<SaveGameEntryInterface> loadMapWithData(String type) {
         try {
-            return loader.loadData(type).stream()
+            return loader.loadMap(type).stream()
                 .peek(item -> item.setValue(
                     Integer.parseInt(findOffset(item.getHexOffset(), item.getLength()), 16)
                 ))
@@ -154,14 +196,20 @@ public class SaveGame {
         }
     }
 
-    private List<SaveGameEntryInterface> createList(Map<String, String> map, int length) {
-        return map.entrySet()
-            .stream()
-            .map(entry -> new ListItem(
-                entry.getKey(),
-                entry.getValue(),
-                Integer.parseInt(findOffset(entry.getValue(), length), 16)
-            ))
-            .collect(Collectors.toCollection(ArrayList<SaveGameEntryInterface>::new));
+    private List<ArtifactMapItem> loadArtifactMap() {
+        try {
+            return loader.loadArtifactMap();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private String intToPaddedHex(int value) {
+        String hexval = Integer.toHexString(value).toUpperCase();
+        if ((hexval.length() % 2) != 0) { // add padding or BaseEncoding will break
+            hexval = "0" + hexval;
+        }
+
+        return hexval;
     }
 }

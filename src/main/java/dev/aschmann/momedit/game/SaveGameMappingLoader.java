@@ -3,14 +3,16 @@ package dev.aschmann.momedit.game;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import dev.aschmann.momedit.game.exceptions.DataTypeNotFoundException;
+import dev.aschmann.momedit.game.models.ArtifactMapItem;
 import dev.aschmann.momedit.game.models.SaveGameItem;
 import dev.aschmann.momedit.game.models.SaveGameEntryInterface;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
-public class SaveGameDataLoader {
+public class SaveGameMappingLoader {
 
     public static final String ABILITIES_TYPE = "abilities";
 
@@ -28,17 +30,19 @@ public class SaveGameDataLoader {
 
     public static final String SORCERY_SPELLS_TYPE = "sorcery-spells";
 
+    public static final String ARTIFACT_MAPPING_TYPE = "item-mapping";
+
     private final ObjectMapper mapper;
 
-    SaveGameDataLoader() {
+    SaveGameMappingLoader() {
         mapper = new ObjectMapper(new YAMLFactory());
     }
 
     public static void main() {
-        SaveGameDataLoader loader = new SaveGameDataLoader();
+        SaveGameMappingLoader loader = new SaveGameMappingLoader();
     }
 
-    public List<SaveGameEntryInterface> loadData(String type) throws IOException {
+    public List<SaveGameEntryInterface> loadMap(String type) throws IOException {
         // easiest for now
         String file = switch (type) {
             case ABILITIES_TYPE -> "abilities.yaml";
@@ -55,6 +59,13 @@ public class SaveGameDataLoader {
         return mapper.readValue(
             new File("src/main/resources/" + file),
             mapper.getTypeFactory().constructCollectionType(List.class, SaveGameItem.class)
+        );
+    }
+
+    public List<ArtifactMapItem> loadArtifactMap() throws IOException {
+        return mapper.readValue(
+                new File("src/main/resources/" + ARTIFACT_MAPPING_TYPE + ".yaml"),
+                mapper.getTypeFactory().constructCollectionType(List.class, ArtifactMapItem.class)
         );
     }
 }
