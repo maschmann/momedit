@@ -1,6 +1,7 @@
 package dev.aschmann.momedit.controller;
 
 import dev.aschmann.momedit.game.SaveGame;
+import dev.aschmann.momedit.game.models.Artifact;
 import dev.aschmann.momedit.game.models.SaveGameEntryInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -56,6 +57,9 @@ public class EditorController implements Initializable{
 	@FXML
 	public TableView<SaveGameEntryInterface> tbl_arcane;
 
+	@FXML
+	public TableView<Artifact> tbl_artifacts;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		saveGame = new SaveGame();
@@ -105,6 +109,7 @@ public class EditorController implements Initializable{
 		initTable(saveGame.getSorcery(), tbl_sorcery);
 		initTable(saveGame.getChaos(), tbl_chaos);
 		initTable(saveGame.getArcane(), tbl_arcane);
+		intArtifactTable(saveGame.getArtifacts(), tbl_artifacts);
 	}
 
 	private static void configureFileChooser(final FileChooser fileChooser) {
@@ -175,6 +180,17 @@ public class EditorController implements Initializable{
 		table.getColumns().add(createStringColumn("spell", "name"));
 		table.getColumns().add(column2);
 		table.getItems().addAll(map);
+	}
+
+	private void intArtifactTable(List<Artifact> artifacts, TableView<Artifact> table) {
+		table.getColumns().removeAll(table.getColumns());
+
+		TableColumn<Artifact, Integer> column2 = new TableColumn<>("value");
+		column2.setCellValueFactory(new PropertyValueFactory<>("value"));
+		column2.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+		table.getColumns().add(column2);
+
+		table.getItems().addAll(artifacts);
 	}
 
 	private TableColumn<SaveGameEntryInterface, String> createStringColumn(String type, String name) {

@@ -75,6 +75,10 @@ public class SaveGame {
         return BaseEncoding.base16().encode(byteValues);
     }
 
+    private int findOffsetInt(String offsetStart, int length) {
+        return Integer.decode(findOffset(offsetStart, length));
+    }
+
     public void writeOffset(String offsetStart, int length, int value) {
         try {
             byte[] byteValues = BaseEncoding.base16().decode(intToPaddedHex(value));
@@ -142,46 +146,68 @@ public class SaveGame {
         }
     }
 
-    /*public List<Artifact> getArtifacts() {
+    public List<Artifact> getArtifacts() {
+        int offsetStart = Integer.parseInt(ARTIFACT_OFFSET_START);
+        int artifactSize = Integer.parseInt(ARTIFACT_OFFSET_LENGTH);
 
-    }*/
-
-    private List<Artifact> loadArtifacts() {
-        int offsetCalculated = (Integer.parseInt(ARTIFACT_OFFSET_START) * Integer.parseInt(ARTIFACT_OFFSET_LENGTH));
         List<Artifact> artifacts = new ArrayList<>();
         // get all artifacts
         for (int i = 0; i < ARTIFACT_MAX_AMOUNT; i++) {
             // calculate the offsets per iteration
-            int currentOffsetStart = ((i + 1) * offsetCalculated);
+            int currentOffsetStart = (i * artifactSize) + offsetStart;
             artifacts.add(
-                createArtifact(currentOffsetStart, i)
+                loadArtifact(currentOffsetStart, i)
             );
         }
 
         return artifacts;
     }
 
-    private Artifact createArtifact(int offsetStart, int id) {
+    private Artifact loadArtifact(int artifactOffset, int id) {
         Artifact artifact = new Artifact(id);
-        // first value's address
-        /*String baseOffset = Integer.toHexString(
-            offsetStart + Integer.parseInt("30", 16)
-        ).toUpperCase();
-        //findOffset();
-        artifact.setGraphics(findOffset());
-        artifact.setType();
-        artifact.setManaPrice();
-        artifact.setAttackBonus();
-        artifact.setHitBonus();
-        artifact.setDefenseBonus();
-        artifact.setMovementBonus();
-        artifact.setResistanceBonus();
-        artifact.setSpellSkill();
-        artifact.setSpellSave();
-        artifact.setSpell();
-        artifact.setSpellCharges();*/
+
+        artifact.setGraphics(
+            findOffsetInt(addIntToHex(artifactOffset, "30"), 2)
+        );
+        artifact.setType(
+            findOffsetInt(addIntToHex(artifactOffset, "32"), 2)
+        );
+        artifact.setManaPrice(
+            findOffsetInt(addIntToHex(artifactOffset, "34"), 2)
+        );
+        artifact.setAttackBonus(
+            findOffsetInt(addIntToHex(artifactOffset, "36"), 1)
+        );
+        artifact.setHitBonus(
+            findOffsetInt(addIntToHex(artifactOffset, "37"), 1)
+        );
+        artifact.setDefenseBonus(
+            findOffsetInt(addIntToHex(artifactOffset, "38"), 1)
+        );
+        artifact.setMovementBonus(
+            findOffsetInt(addIntToHex(artifactOffset, "39"), 1)
+        );
+        artifact.setResistanceBonus(
+            findOffsetInt(addIntToHex(artifactOffset, "40"), 1)
+        );
+        artifact.setSpellSkill(
+            findOffsetInt(addIntToHex(artifactOffset, "41"), 1)
+        );
+        artifact.setSpellSave(
+            findOffsetInt(addIntToHex(artifactOffset, "42"), 1)
+        );
+        artifact.setSpell(
+            findOffsetInt(addIntToHex(artifactOffset, "43"), 1)
+        );
+        artifact.setSpellCharges(
+            findOffsetInt(addIntToHex(artifactOffset, "44"), 1)
+        );
 
         return artifact;
+    }
+
+    private void saveArtifact(Artifact artifact) {
+
     }
 
     private List<SaveGameEntryInterface> loadMapWithData(String type) {
@@ -196,20 +222,19 @@ public class SaveGame {
         }
     }
 
-    private List<ArtifactMapItem> loadArtifactMap() {
-        try {
-            return loader.loadArtifactMap();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private String intToPaddedHex(int value) {
+        // for ... reasons it always has to be uppercase
         String hexval = Integer.toHexString(value).toUpperCase();
         if ((hexval.length() % 2) != 0) { // add padding or BaseEncoding will break
             hexval = "0" + hexval;
         }
 
         return hexval;
+    }
+
+    private String addIntToHex(int intval, String hexval) {
+        return intToPaddedHex(
+            intval + Integer.parseInt(hexval, 16)
+        );
     }
 }

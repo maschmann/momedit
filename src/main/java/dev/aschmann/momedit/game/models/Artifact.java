@@ -66,8 +66,9 @@ public class Artifact {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(int type) {
+        this.type = resolveTypeToString(type);
+        this.typeNumeric = type;
     }
 
     public int getTypeNumeric() {
