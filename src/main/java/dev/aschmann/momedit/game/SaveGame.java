@@ -5,6 +5,7 @@ import dev.aschmann.momedit.game.models.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -75,8 +76,16 @@ public class SaveGame {
         return BaseEncoding.base16().encode(byteValues);
     }
 
+    private String readStringFromOffset(int offsetStart, int length) {
+        byte[] byteValues = new byte[length];
+        System.arraycopy(fileBytes, offsetStart, byteValues, 0, length);
+
+        return new String(byteValues, StandardCharsets.ISO_8859_1).trim();
+    }
+
     private int findOffsetInt(String offsetStart, int length) {
-        return Integer.decode(findOffset(offsetStart, length));
+        // use a "#" to make sure it's handled as a hex value, otherwise it might break
+        return Integer.decode("#" + findOffset(offsetStart, length));
     }
 
     public void writeOffset(String offsetStart, int length, int value) {
@@ -147,17 +156,18 @@ public class SaveGame {
     }
 
     public List<Artifact> getArtifacts() {
-        int offsetStart = Integer.parseInt(ARTIFACT_OFFSET_START);
-        int artifactSize = Integer.parseInt(ARTIFACT_OFFSET_LENGTH);
+        int offsetStart = Integer.parseInt(ARTIFACT_OFFSET_START, 16);
+        int artifactSize = Integer.parseInt(ARTIFACT_OFFSET_LENGTH, 16);
 
         List<Artifact> artifacts = new ArrayList<>();
         // get all artifacts
         for (int i = 0; i < ARTIFACT_MAX_AMOUNT; i++) {
             // calculate the offsets per iteration
             int currentOffsetStart = (i * artifactSize) + offsetStart;
-            artifacts.add(
-                loadArtifact(currentOffsetStart, i)
-            );
+            Artifact artifact = loadArtifact(currentOffsetStart, i);
+            if (!artifact.getName().isEmpty()) {
+                artifacts.add(artifact);
+            }
         }
 
         return artifacts;
@@ -165,6 +175,8 @@ public class SaveGame {
 
     private Artifact loadArtifact(int artifactOffset, int id) {
         Artifact artifact = new Artifact(id);
+
+        artifact.setName(readStringFromOffset(artifactOffset, 29));
 
         artifact.setGraphics(
             findOffsetInt(addIntToHex(artifactOffset, "30"), 2)

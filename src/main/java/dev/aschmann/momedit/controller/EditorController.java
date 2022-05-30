@@ -127,6 +127,9 @@ public class EditorController implements Initializable{
 	 */
 	private void initCheckBoxesFromMap(Map<String, String> map, VBox vbox) {
 		vbox.setFillWidth(false);
+		// clean up in case of reload
+		vbox.getChildren().removeAll(vbox.getChildren());
+
 		map.forEach((name, offset) -> {
 			CheckBox cb = new CheckBox();
 			cb.setId(offset);
@@ -147,6 +150,7 @@ public class EditorController implements Initializable{
 	}
 
 	private void initBaseValues(List<SaveGameEntryInterface> map, TableView<SaveGameEntryInterface> table) {
+		// clean up in case of reload
 		table.getColumns().removeAll(table.getColumns());
 		table.setEditable(true);
 
@@ -166,6 +170,7 @@ public class EditorController implements Initializable{
 	}
 
 	private void initTable(List<SaveGameEntryInterface> map, TableView<SaveGameEntryInterface> table) {
+		// clean up in case of reload
 		table.getColumns().removeAll(table.getColumns());
 
 		TableColumn<SaveGameEntryInterface, Integer> column2 = new TableColumn<>("value");
@@ -183,12 +188,33 @@ public class EditorController implements Initializable{
 	}
 
 	private void intArtifactTable(List<Artifact> artifacts, TableView<Artifact> table) {
+		// clean up in case of reload
 		table.getColumns().removeAll(table.getColumns());
 
-		TableColumn<Artifact, Integer> column2 = new TableColumn<>("value");
-		column2.setCellValueFactory(new PropertyValueFactory<>("value"));
+		TableColumn<Artifact, String> column1 = new TableColumn<>("name");
+		column1.setCellValueFactory(new PropertyValueFactory<>("name"));
+		table.getColumns().add(column1);
+
+
+		TableColumn<Artifact, Integer> column2 = new TableColumn<>("attackBonus");
+		column2.setCellValueFactory(new PropertyValueFactory<>("attackBonus"));
 		column2.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
 		table.getColumns().add(column2);
+
+		TableColumn<Artifact, Integer> column3 = new TableColumn<>("hitBonus");
+		column3.setCellValueFactory(new PropertyValueFactory<>("hitBonus"));
+		column3.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+		table.getColumns().add(column3);
+
+		TableColumn<Artifact, Integer> column4 = new TableColumn<>("defenseBonus");
+		column4.setCellValueFactory(new PropertyValueFactory<>("defenseBonus"));
+		column4.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+		table.getColumns().add(column4);
+
+		TableColumn<Artifact, Integer> column5 = new TableColumn<>("movementBonus");
+		column5.setCellValueFactory(new PropertyValueFactory<>("movementBonus"));
+		column5.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+		table.getColumns().add(column5);
 
 		table.getItems().addAll(artifacts);
 	}
