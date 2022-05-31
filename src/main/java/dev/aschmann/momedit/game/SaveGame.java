@@ -179,40 +179,40 @@ public class SaveGame {
         artifact.setName(readStringFromOffset(artifactOffset, 29));
 
         artifact.setGraphics(
-            findOffsetInt(addIntToHex(artifactOffset, "30"), 2)
+            findOffsetInt(intToPaddedHex(artifactOffset + 30), 1)
         );
         artifact.setType(
-            findOffsetInt(addIntToHex(artifactOffset, "32"), 2)
+            findOffsetInt(intToPaddedHex(artifactOffset + 32), 1)
         );
         artifact.setManaPrice(
-            findOffsetInt(addIntToHex(artifactOffset, "34"), 2)
+            findOffsetInt(intToPaddedHex(artifactOffset + 34), 2)
         );
         artifact.setAttackBonus(
-            findOffsetInt(addIntToHex(artifactOffset, "36"), 1)
+            findOffsetInt(intToPaddedHex(artifactOffset + 36), 1)
         );
         artifact.setHitBonus(
-            findOffsetInt(addIntToHex(artifactOffset, "37"), 1)
+            findOffsetInt(intToPaddedHex(artifactOffset + 37), 1)
         );
         artifact.setDefenseBonus(
-            findOffsetInt(addIntToHex(artifactOffset, "38"), 1)
+            findOffsetInt(intToPaddedHex(artifactOffset + 38), 1)
         );
         artifact.setMovementBonus(
-            findOffsetInt(addIntToHex(artifactOffset, "39"), 1)
+            findOffsetInt(intToPaddedHex(artifactOffset + 39), 1)
         );
         artifact.setResistanceBonus(
-            findOffsetInt(addIntToHex(artifactOffset, "40"), 1)
+            findOffsetInt(intToPaddedHex(artifactOffset + 40), 1)
         );
         artifact.setSpellSkill(
-            findOffsetInt(addIntToHex(artifactOffset, "41"), 1)
+            findOffsetInt(intToPaddedHex(artifactOffset + 41), 1)
         );
         artifact.setSpellSave(
-            findOffsetInt(addIntToHex(artifactOffset, "42"), 1)
+            findOffsetInt(intToPaddedHex(artifactOffset + 42), 1)
         );
         artifact.setSpell(
-            findOffsetInt(addIntToHex(artifactOffset, "43"), 1)
+            findOffsetInt(intToPaddedHex(artifactOffset + 43), 1)
         );
         artifact.setSpellCharges(
-            findOffsetInt(addIntToHex(artifactOffset, "44"), 1)
+            findOffsetInt(intToPaddedHex(artifactOffset + 44), 1)
         );
 
         return artifact;

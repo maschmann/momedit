@@ -195,6 +195,9 @@ public class EditorController implements Initializable{
 		column1.setCellValueFactory(new PropertyValueFactory<>("name"));
 		table.getColumns().add(column1);
 
+		TableColumn<Artifact, String> column6 = new TableColumn<>("type");
+		column6.setCellValueFactory(new PropertyValueFactory<>("type"));
+		table.getColumns().add(column6);
 
 		TableColumn<Artifact, Integer> column2 = new TableColumn<>("attackBonus");
 		column2.setCellValueFactory(new PropertyValueFactory<>("attackBonus"));
