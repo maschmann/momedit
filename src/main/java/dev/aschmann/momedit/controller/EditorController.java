@@ -191,39 +191,38 @@ public class EditorController implements Initializable{
 		// clean up in case of reload
 		table.getColumns().removeAll(table.getColumns());
 
-		TableColumn<Artifact, String> column1 = new TableColumn<>("name");
-		column1.setCellValueFactory(new PropertyValueFactory<>("name"));
-		table.getColumns().add(column1);
-
-		TableColumn<Artifact, String> column6 = new TableColumn<>("type");
-		column6.setCellValueFactory(new PropertyValueFactory<>("type"));
-		table.getColumns().add(column6);
-
-		TableColumn<Artifact, Integer> column2 = new TableColumn<>("attackBonus");
-		column2.setCellValueFactory(new PropertyValueFactory<>("attackBonus"));
-		column2.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-		table.getColumns().add(column2);
-
-		TableColumn<Artifact, Integer> column3 = new TableColumn<>("hitBonus");
-		column3.setCellValueFactory(new PropertyValueFactory<>("hitBonus"));
-		column3.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-		table.getColumns().add(column3);
-
-		TableColumn<Artifact, Integer> column4 = new TableColumn<>("defenseBonus");
-		column4.setCellValueFactory(new PropertyValueFactory<>("defenseBonus"));
-		column4.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-		table.getColumns().add(column4);
-
-		TableColumn<Artifact, Integer> column5 = new TableColumn<>("movementBonus");
-		column5.setCellValueFactory(new PropertyValueFactory<>("movementBonus"));
-		column5.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-		table.getColumns().add(column5);
+		table.getColumns().add(createArtifactStringColumn("name", "name"));
+		table.getColumns().add(createArtifactStringColumn("type", "type"));
+		table.getColumns().add(createArtifactIntegerColumn("attackBonus", "attackBonus"));
+		table.getColumns().add(createArtifactIntegerColumn("hitBonus", "hitBonus"));
+		table.getColumns().add(createArtifactIntegerColumn("defenseBonus", "defenseBonus"));
+		table.getColumns().add(createArtifactIntegerColumn("movementBonus", "movementBonus"));
+		table.getColumns().add(createArtifactIntegerColumn("resistanceBonus", "resistanceBonus"));
+		table.getColumns().add(createArtifactIntegerColumn("spellSkill", "spellSkill"));
+		table.getColumns().add(createArtifactIntegerColumn("spellSave", "spellSave"));
+		table.getColumns().add(createArtifactIntegerColumn("spellCharges", "spellCharges"));
+		table.getColumns().add(createArtifactIntegerColumn("manaPrice", "manaPrice"));
 
 		table.getItems().addAll(artifacts);
 	}
 
 	private TableColumn<SaveGameEntryInterface, String> createStringColumn(String type, String name) {
 		TableColumn<SaveGameEntryInterface, String> column = new TableColumn<>(type);
+		column.setCellValueFactory(new PropertyValueFactory<>(name));
+
+		return column;
+	}
+
+	private TableColumn<Artifact, Integer> createArtifactIntegerColumn(String type, String name) {
+		TableColumn<Artifact, Integer> column = new TableColumn<>(type);
+		column.setCellValueFactory(new PropertyValueFactory<>(name));
+		column.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+
+		return column;
+	}
+
+	private TableColumn<Artifact, String> createArtifactStringColumn(String type, String name) {
+		TableColumn<Artifact, String> column = new TableColumn<>(type);
 		column.setCellValueFactory(new PropertyValueFactory<>(name));
 
 		return column;

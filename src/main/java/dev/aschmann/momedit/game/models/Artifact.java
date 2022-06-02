@@ -1,8 +1,11 @@
 package dev.aschmann.momedit.game.models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Artifact {
 
-    private int id;
+    private final int id;
 
     private int totalOffset;
 
