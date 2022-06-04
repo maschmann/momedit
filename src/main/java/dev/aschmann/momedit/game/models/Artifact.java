@@ -2,6 +2,7 @@ package dev.aschmann.momedit.game.models;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Artifact {
 
@@ -11,9 +12,9 @@ public class Artifact {
 
     private String name;
 
-    private String type;
+    private int type;
 
-    private int typeNumeric;
+    private String typeString;
 
     private int graphics;
 
@@ -37,8 +38,18 @@ public class Artifact {
 
     private int spell;
 
+    private final Map<Integer, String> types;
+
     public Artifact(int id) {
         this.id = id;
+
+        types = new HashMap<>();
+        types.put(1, "Sword");
+        types.put(2, "Bow");
+        types.put(3, "SwordWand");
+        types.put(4, "Wand");
+        types.put(5, "Shield");
+        types.put(6, "Amulet");
     }
 
     public static void main(int id) {
@@ -65,21 +76,22 @@ public class Artifact {
         this.name = name;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
     public void setType(int type) {
-        this.type = resolveTypeToString(type);
-        this.typeNumeric = type;
+        this.type = type;
+        this.typeString = resolveTypeToString(type);
     }
 
-    public int getTypeNumeric() {
-        return typeNumeric;
+    public String getTypeString() {
+        return typeString;
     }
 
-    public void setTypeNumeric(int typeNumeric) {
-        this.typeNumeric = typeNumeric;
+    public void setTypeString(String typeString) {
+        this.type = resolveTypeToInt(typeString);
+        this.typeString = typeString;
     }
 
     public int getGraphics() {
@@ -170,15 +182,25 @@ public class Artifact {
         this.spell = spell;
     }
 
-    private String resolveTypeToString(int type) {
-        return switch (type) {
-            case 1 -> "Sword";
-            case 2 -> "Bow";
-            case 3 -> "SwordWand";
-            case 4 -> "Wand";
-            case 5 -> "Shield";
-            case 6 -> "Amulet";
-            default -> "unknown";
-        };
+    public String resolveTypeToString(int type) {
+        return types.getOrDefault(type, "unknown");
+    }
+
+    public int resolveTypeToInt(String type) {
+        // circumvent mutability issue in lambdas >.<
+        AtomicInteger result = new AtomicInteger();
+        if (types.containsValue(type)) {
+            types.forEach((key, value) -> {
+                if (value.equals(type)) {
+                    result.set(key);
+                }
+            });
+        }
+
+        return result.get();
+    }
+
+    public Map<Integer, String> getTypes() {
+        return types;
     }
 }

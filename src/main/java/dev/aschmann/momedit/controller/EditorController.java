@@ -3,25 +3,33 @@ package dev.aschmann.momedit.controller;
 import dev.aschmann.momedit.game.SaveGame;
 import dev.aschmann.momedit.game.models.Artifact;
 import dev.aschmann.momedit.game.models.SaveGameEntryInterface;
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Popup;
+import javafx.stage.Window;
+import javafx.util.Pair;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.io.File;
 import java.net.URL;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.stream.Collectors;
 
-public class EditorController implements Initializable{
+public class EditorController implements Initializable {
 	@FXML
 	private Label openSavegamePath;
 
@@ -30,6 +38,9 @@ public class EditorController implements Initializable{
 
 	@FXML
 	private Button save;
+
+	@FXML
+	private Button addArtifactButton;
 
 	@FXML
 	public VBox abilityBox;
@@ -63,6 +74,7 @@ public class EditorController implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		saveGame = new SaveGame();
+		addArtifactButton.setDisable(true);
 		initCheckBoxesFromMap(saveGame.getAbilityMap(), abilityBox);
 	}
 
@@ -76,7 +88,117 @@ public class EditorController implements Initializable{
 			openSavegamePath.setText(file.getName());
 			saveGame.load(file);
 			setValuesToControls();
+			addArtifactButton.setDisable(false);
 		}
+	}
+
+	@FXML
+	public void onAddArtifactClick(ActionEvent event) {
+		// Create the custom dialog.
+		Dialog<Artifact> dialog = new Dialog<>();
+		dialog.setTitle("Artifact");
+		dialog.setHeaderText("Create or change an artifact");
+
+		int newId = saveGame.getArtifacts().size(); // because the last id is size() -1
+		Artifact artifact = new Artifact(newId);
+
+		List<Integer> defaultChoices = new ArrayList<>();
+		defaultChoices.add(0);
+		defaultChoices.add(1);
+		defaultChoices.add(2);
+		defaultChoices.add(3);
+		defaultChoices.add(4);
+		defaultChoices.add(5);
+		defaultChoices.add(6);
+
+		//dialog.setGraphic(new ImageView(this.getClass().getResource("login.png").toString()));
+
+		ButtonType storeButtonType = new ButtonType("Store", ButtonBar.ButtonData.OK_DONE);
+		dialog.getDialogPane().getButtonTypes().addAll(storeButtonType, ButtonType.CANCEL);
+
+		GridPane grid = new GridPane();
+		grid.setHgap(10);
+		grid.setVgap(10);
+		grid.setPadding(new Insets(20, 150, 10, 10));
+
+		TextField name = new TextField();
+		name.setPromptText("name");
+		grid.add(new Label("name:"), 0, 0);
+		grid.add(name, 1, 0);
+
+		ChoiceBox<String> type = new ChoiceBox<>();
+		type.getItems().addAll(artifact.getTypes().values().stream().toList());
+		if (artifact.getTypeString() != null) {
+			type.setValue(artifact.getTypeString());
+		}
+		grid.add(new Label("type:"), 0, 1);
+		grid.add(type, 1, 1);
+		type.setOnAction((cbEvent) -> artifact.setTypeString(type.getSelectionModel().getSelectedItem()));
+
+		ChoiceBox<Integer> attackBonus = createArtifactCheckBox(
+			"attackBonus:", 2, grid, artifact.getAttackBonus(), defaultChoices
+		);
+		attackBonus.setOnAction((cbEvent) -> artifact.setAttackBonus(attackBonus.getSelectionModel().getSelectedItem()));
+
+		ChoiceBox<Integer> hitBonus = createArtifactCheckBox(
+			"hitBonus:", 3, grid, artifact.getHitBonus(), defaultChoices
+		);
+		hitBonus.setOnAction((cbEvent) -> artifact.setHitBonus(hitBonus.getSelectionModel().getSelectedItem()));
+
+		ChoiceBox<Integer> defenseBonus = createArtifactCheckBox(
+			"defenseBonus:", 4, grid, artifact.getDefenseBonus(), defaultChoices
+		);
+		defenseBonus.setOnAction((cbEvent) -> artifact.setDefenseBonus(defenseBonus.getSelectionModel().getSelectedItem()));
+
+		ChoiceBox<Integer> movementBonus = createArtifactCheckBox(
+			"movementBonus:", 5, grid, artifact.getMovementBonus(), defaultChoices
+		);
+		movementBonus.setOnAction((cbEvent) -> artifact.setMovementBonus(movementBonus.getSelectionModel().getSelectedItem()));
+
+		ChoiceBox<Integer> resistanceBonus = createArtifactCheckBox(
+			"resistanceBonus:", 6, grid, artifact.getResistanceBonus(), defaultChoices
+		);
+		resistanceBonus.setOnAction((cbEvent) -> artifact.setResistanceBonus(resistanceBonus.getSelectionModel().getSelectedItem()));
+
+		ChoiceBox<Integer> spellSkill = createArtifactCheckBox(
+			"spellSkill:", 7, grid, artifact.getSpellSkill(), defaultChoices
+		);
+		spellSkill.setOnAction((cbEvent) -> artifact.setSpellSkill(spellSkill.getSelectionModel().getSelectedItem()));
+
+		ChoiceBox<Integer> spellSave = createArtifactCheckBox(
+			"spellSave:", 8, grid, artifact.getSpellSave(), defaultChoices
+		);
+		spellSave.setOnAction((cbEvent) -> artifact.setSpellSave(spellSave.getSelectionModel().getSelectedItem()));
+
+		ChoiceBox<Integer> spellCharges = createArtifactCheckBox(
+			"spellCharges:", 9, grid, artifact.getSpellSave(), defaultChoices
+		);
+		spellCharges.setOnAction((cbEvent) -> artifact.setSpellSave(spellCharges.getSelectionModel().getSelectedItem()));
+
+		artifact.setManaPrice(3500); // set some nice default price, so you can get money
+
+		//Node storeButton = dialog.getDialogPane().lookupButton(storeButtonType);
+		//storeButton.setDisable(true);
+		dialog.getDialogPane().setContent(grid);
+
+		Platform.runLater(name::requestFocus);
+
+        // Convert the result to a username-password-pair when the login button is clicked.
+		dialog.setResultConverter(dialogButton -> {
+			if (dialogButton == storeButtonType) {
+				// saveGame.getArtifacts()
+				return artifact;
+			}
+
+			return null;
+		});
+
+		Optional<Artifact> resultArtifact = dialog.showAndWait();
+
+		resultArtifact.ifPresent(artifactToStore -> {
+			// store artifact in byteArray
+			saveGame.saveArtifact(artifactToStore);
+		});
 	}
 
 	public void handleCheckboxUpdate(ActionEvent event) {
@@ -226,5 +348,21 @@ public class EditorController implements Initializable{
 		column.setCellValueFactory(new PropertyValueFactory<>(name));
 
 		return column;
+	}
+
+	private ChoiceBox<Integer> createArtifactCheckBox(
+		String label,
+		int position,
+		GridPane grid,
+		int value,
+		List<Integer> choices
+	) {
+		ChoiceBox<Integer> choiceBox = new ChoiceBox<>();
+		choiceBox.getItems().addAll(choices);
+		choiceBox.setValue(value);
+		grid.add(new Label(label), 0, position);
+		grid.add(choiceBox, 1, position);
+
+		return choiceBox;
 	}
 }

@@ -58,5 +58,6 @@
             </Tab>
         </tabs>
       </TabPane>
+      <Button fx:id="addArtifactButton" layoutX="214.0" layoutY="218.0" mnemonicParsing="false" onAction="#onAddArtifactClick" text="+ Artifact" />
     </children>
 </AnchorPane>

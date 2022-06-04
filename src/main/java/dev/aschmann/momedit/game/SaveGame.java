@@ -218,7 +218,7 @@ public class SaveGame {
         return artifact;
     }
 
-    private void saveArtifact(Artifact artifact) {
+    public void saveArtifact(Artifact artifact) {
 
     }
 
