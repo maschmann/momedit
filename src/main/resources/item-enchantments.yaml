@@ -1,0 +1,36 @@
+---
+- { value: 1, name: "Vampiric, life draining", offset: 46 }
+- { value: 2, name: "Guardian Wind, as guardian wind spell", offset: 46 }
+- { value: 4, name: "Lighting, armor piercing", offset: 46 }
+- { value: 8, name: "Cloak of Fear, as cloak of fear spell", offset: 46 }
+- { value: 16, name: "Destruction, resist or be disintegrated", offset: 46 }
+- { value: 32, name: "Wraithform, as wraithform spell", offset: 46 }
+- { value: 64, name: "Regeneration, as regeneration spell", offset: 46 }
+- { value: 128, name: "Pathfinding, as pathfinding spell", offset: 46 }
+
+- { value: 1, name: "Water Walking, as water walking spell", offset: 47 }
+- { value: 2, name: "Resist Elements, as resist elements spell", offset: 47 }
+- { value: 4, name: "Elemtental Armor, as elemental armor spell", offset: 47 }
+- { value: 8, name: "Doom, ignores armor", offset: 47 }
+- { value: 16, name: "Stoning, resist at -1 or be stoned", offset: 47}
+- { value: 32, name: "Endurance, as swiftness spell", offset: 47}
+- { value: 64, name: "Haste, double attacks", offset: 47 }
+- { value: 128, name: "Invisibility, as invisibility spell", offset: 47 }
+
+- { value: 1, name: "Death, save at -3 or die", offset: 48 }
+- { value: 2, name: "Flight, as flight spell", offset: 48 }
+- { value: 4, name: "Resist Magic, as resist magic spell", offset: 48 }
+- { value: 8, name: "Magic Immunity, as magic immunity spell", offset: 48 }
+- { value: 16, name: "Flaming, +3 attack strength", offset: 48 }
+- { value: 32, name: "Holy Avenger, as bless & dispel evil spell", offset: 48 }
+- { value: 64, name: "True Sight, as true sight spell", offset: 48 }
+- { value: 128, name: "Phantasmal, ignores armor & illusion attacks", offset: 48 }
+
+- { value: 1, name: "Power Drain, target loses 2-20 mana", offset: 49 }
+- { value: 2, name: "Bless, as bless spell", offset: 49 }
+- { value: 4, name: "Lion Heart, as lion heart spell", offset: 49 }
+- { value: 8, name: "Giant Strength, as giant strength spell", offset: 49 }
+- { value: 16, name: "Planar Travel, as planar travel spell", offset: 49 }
+- { value: 32, name: "Merging, as merging spell", offset: 49 }
+- { value: 4, name: "Righteousness, as righteousness spell", offset: 49 }
+- { value: 128, name: "Invulnerability, as invulnerability spell", offset: 49 }

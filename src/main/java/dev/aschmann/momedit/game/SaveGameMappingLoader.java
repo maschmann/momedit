@@ -3,9 +3,7 @@ package dev.aschmann.momedit.game;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import dev.aschmann.momedit.game.exceptions.DataTypeNotFoundException;
-import dev.aschmann.momedit.game.models.ArtifactMapItem;
-import dev.aschmann.momedit.game.models.SaveGameItem;
-import dev.aschmann.momedit.game.models.SaveGameEntryInterface;
+import dev.aschmann.momedit.game.models.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +27,9 @@ public class SaveGameMappingLoader {
 
     public static final String SORCERY_SPELLS_TYPE = "sorcery-spells";
 
-    public static final String ARTIFACT_MAPPING_TYPE = "item-mapping";
+    public static final String ARTIFACT_ENCHANTMENT_TYPE = "item-enchantments";
+
+    public static final String ARTIFACT_SPELL_TYPE = "item-spells";
 
     private final ObjectMapper mapper;
 
@@ -44,8 +44,8 @@ public class SaveGameMappingLoader {
     public List<SaveGameEntryInterface> loadMap(String type) throws IOException {
         // easiest for now
         String file = switch (type) {
-            case ABILITIES_TYPE -> "abilities.yaml";
-            case BASE_TYPE -> "base.yaml";
+            case ABILITIES_TYPE -> ABILITIES_TYPE + ".yaml";
+            case BASE_TYPE -> BASE_TYPE + ".yaml";
             case DEATH_SPELLS_TYPE -> DEATH_SPELLS_TYPE + ".yaml";
             case LIFE_SPELLS_TYPE -> LIFE_SPELLS_TYPE + ".yaml";
             case NATURE_SPELLS_TYPE -> NATURE_SPELLS_TYPE + ".yaml";
@@ -61,10 +61,17 @@ public class SaveGameMappingLoader {
         );
     }
 
-    public List<ArtifactMapItem> loadArtifactMap() throws IOException {
+    public List<SimpleItemInterface> loadArtifactEnchantments() throws IOException {
         return mapper.readValue(
-                new File("src/main/resources/" + ARTIFACT_MAPPING_TYPE + ".yaml"),
-                mapper.getTypeFactory().constructCollectionType(List.class, ArtifactMapItem.class)
+            new File("src/main/resources/" + ARTIFACT_ENCHANTMENT_TYPE + ".yaml"),
+            mapper.getTypeFactory().constructCollectionType(List.class, ArtifactEnchantmentItem.class)
+        );
+    }
+
+    public List<SimpleItemInterface> loadArtifactSpells() throws IOException {
+        return mapper.readValue(
+            new File("src/main/resources/" + ARTIFACT_SPELL_TYPE + ".yaml"),
+            mapper.getTypeFactory().constructCollectionType(List.class, ArtifactSpellItem.class)
         );
     }
 }

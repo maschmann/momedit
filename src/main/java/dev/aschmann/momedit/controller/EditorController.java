@@ -4,8 +4,6 @@ import dev.aschmann.momedit.game.SaveGame;
 import dev.aschmann.momedit.game.models.Artifact;
 import dev.aschmann.momedit.game.models.SaveGameEntryInterface;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,29 +13,22 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Popup;
-import javafx.stage.Window;
-import javafx.util.Pair;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class EditorController implements Initializable {
 	@FXML
 	private Label openSavegamePath;
-
-	@FXML
-	private Button openSavegame;
-
-	@FXML
-	private Button save;
 
 	@FXML
 	private Button addArtifactButton;
@@ -102,15 +93,6 @@ public class EditorController implements Initializable {
 		int newId = saveGame.getArtifacts().size(); // because the last id is size() -1
 		Artifact artifact = new Artifact(newId);
 
-		List<Integer> defaultChoices = new ArrayList<>();
-		defaultChoices.add(0);
-		defaultChoices.add(1);
-		defaultChoices.add(2);
-		defaultChoices.add(3);
-		defaultChoices.add(4);
-		defaultChoices.add(5);
-		defaultChoices.add(6);
-
 		//dialog.setGraphic(new ImageView(this.getClass().getResource("login.png").toString()));
 
 		ButtonType storeButtonType = new ButtonType("Store", ButtonBar.ButtonData.OK_DONE);
@@ -125,6 +107,7 @@ public class EditorController implements Initializable {
 		name.setPromptText("name");
 		grid.add(new Label("name:"), 0, 0);
 		grid.add(name, 1, 0);
+		name.textProperty().addListener((observable, oldValue, newValue) -> artifact.setName(newValue.trim()));
 
 		ChoiceBox<String> type = new ChoiceBox<>();
 		type.getItems().addAll(artifact.getTypes().values().stream().toList());
@@ -135,45 +118,70 @@ public class EditorController implements Initializable {
 		grid.add(type, 1, 1);
 		type.setOnAction((cbEvent) -> artifact.setTypeString(type.getSelectionModel().getSelectedItem()));
 
+		TextField imageVal = new TextField();
+		imageVal.setPromptText("image");
+		grid.add(imageVal, 0, 2);
+		imageVal.textProperty().addListener((observable, oldValue, newValue) -> {
+			artifact.setGraphics(Integer.parseInt(newValue.trim()));
+			try {
+				ImageView imageView = getImageForId(artifact.getGraphics());
+				grid.add(imageView, 1, 2);
+			} catch (FileNotFoundException e) {
+				// There be dragons...
+			}
+		});
+
+		try {
+			ImageView imageView = getImageForId(artifact.getGraphics());
+			grid.add(imageView, 1, 2);
+		} catch (FileNotFoundException e) {
+			// There be dragons...
+		}
+
 		ChoiceBox<Integer> attackBonus = createArtifactCheckBox(
-			"attackBonus:", 2, grid, artifact.getAttackBonus(), defaultChoices
+			"attackBonus:", 3, grid, artifact.getAttackBonus(), Arrays.asList(0, 1, 2, 3, 4, 5, 6)
 		);
 		attackBonus.setOnAction((cbEvent) -> artifact.setAttackBonus(attackBonus.getSelectionModel().getSelectedItem()));
 
 		ChoiceBox<Integer> hitBonus = createArtifactCheckBox(
-			"hitBonus:", 3, grid, artifact.getHitBonus(), defaultChoices
+			"hitBonus:", 4, grid, artifact.getHitBonus(), Arrays.asList(0, 1, 2, 3)
 		);
 		hitBonus.setOnAction((cbEvent) -> artifact.setHitBonus(hitBonus.getSelectionModel().getSelectedItem()));
 
 		ChoiceBox<Integer> defenseBonus = createArtifactCheckBox(
-			"defenseBonus:", 4, grid, artifact.getDefenseBonus(), defaultChoices
+			"defenseBonus:", 5, grid, artifact.getDefenseBonus(), Arrays.asList(0, 1, 2, 3, 4, 5, 6)
 		);
 		defenseBonus.setOnAction((cbEvent) -> artifact.setDefenseBonus(defenseBonus.getSelectionModel().getSelectedItem()));
 
 		ChoiceBox<Integer> movementBonus = createArtifactCheckBox(
-			"movementBonus:", 5, grid, artifact.getMovementBonus(), defaultChoices
+			"movementBonus:", 6, grid, artifact.getMovementBonus(), Arrays.asList(0, 1, 2, 3, 4)
 		);
 		movementBonus.setOnAction((cbEvent) -> artifact.setMovementBonus(movementBonus.getSelectionModel().getSelectedItem()));
 
 		ChoiceBox<Integer> resistanceBonus = createArtifactCheckBox(
-			"resistanceBonus:", 6, grid, artifact.getResistanceBonus(), defaultChoices
+			"resistanceBonus:", 7, grid, artifact.getResistanceBonus(), Arrays.asList(0, 1, 2, 3, 4, 5, 6)
 		);
 		resistanceBonus.setOnAction((cbEvent) -> artifact.setResistanceBonus(resistanceBonus.getSelectionModel().getSelectedItem()));
 
 		ChoiceBox<Integer> spellSkill = createArtifactCheckBox(
-			"spellSkill:", 7, grid, artifact.getSpellSkill(), defaultChoices
+			"spellSkill:", 8, grid, artifact.getSpellSkill(), Arrays.asList(0, 5, 10, 15, 20)
 		);
 		spellSkill.setOnAction((cbEvent) -> artifact.setSpellSkill(spellSkill.getSelectionModel().getSelectedItem()));
 
 		ChoiceBox<Integer> spellSave = createArtifactCheckBox(
-			"spellSave:", 8, grid, artifact.getSpellSave(), defaultChoices
+			"spellSave:", 9, grid, artifact.getSpellSave(), Arrays.asList(0, 1, 2, 3, 4)
 		);
 		spellSave.setOnAction((cbEvent) -> artifact.setSpellSave(spellSave.getSelectionModel().getSelectedItem()));
 
 		ChoiceBox<Integer> spellCharges = createArtifactCheckBox(
-			"spellCharges:", 9, grid, artifact.getSpellSave(), defaultChoices
+			"spellCharges:", 10, grid, artifact.getSpellSave(), Arrays.asList(0, 1, 2, 3, 4)
 		);
 		spellCharges.setOnAction((cbEvent) -> artifact.setSpellSave(spellCharges.getSelectionModel().getSelectedItem()));
+
+		ChoiceBox<Integer> vaultStorage = createArtifactCheckBox(
+			"vaultSpace:", 11, grid, artifact.getVaultStorage(), Arrays.asList(0, 1, 2, 3, 4)
+		);
+		vaultStorage.setOnAction((cbEvent) -> artifact.setVaultStorage(vaultStorage.getSelectionModel().getSelectedItem()));
 
 		artifact.setManaPrice(3500); // set some nice default price, so you can get money
 
@@ -186,7 +194,6 @@ public class EditorController implements Initializable {
         // Convert the result to a username-password-pair when the login button is clicked.
 		dialog.setResultConverter(dialogButton -> {
 			if (dialogButton == storeButtonType) {
-				// saveGame.getArtifacts()
 				return artifact;
 			}
 
@@ -198,6 +205,8 @@ public class EditorController implements Initializable {
 		resultArtifact.ifPresent(artifactToStore -> {
 			// store artifact in byteArray
 			saveGame.saveArtifact(artifactToStore);
+			// reload artifact table to show changes
+			intArtifactTable(saveGame.getArtifacts(), tbl_artifacts);
 		});
 	}
 
@@ -314,7 +323,7 @@ public class EditorController implements Initializable {
 		table.getColumns().removeAll(table.getColumns());
 
 		table.getColumns().add(createArtifactStringColumn("name", "name"));
-		table.getColumns().add(createArtifactStringColumn("type", "type"));
+		table.getColumns().add(createArtifactStringColumn("type", "typeString"));
 		table.getColumns().add(createArtifactIntegerColumn("attackBonus", "attackBonus"));
 		table.getColumns().add(createArtifactIntegerColumn("hitBonus", "hitBonus"));
 		table.getColumns().add(createArtifactIntegerColumn("defenseBonus", "defenseBonus"));
@@ -323,6 +332,7 @@ public class EditorController implements Initializable {
 		table.getColumns().add(createArtifactIntegerColumn("spellSkill", "spellSkill"));
 		table.getColumns().add(createArtifactIntegerColumn("spellSave", "spellSave"));
 		table.getColumns().add(createArtifactIntegerColumn("spellCharges", "spellCharges"));
+		table.getColumns().add(createArtifactIntegerColumn("spell", "spell"));
 		table.getColumns().add(createArtifactIntegerColumn("manaPrice", "manaPrice"));
 
 		table.getItems().addAll(artifacts);
@@ -348,6 +358,25 @@ public class EditorController implements Initializable {
 		column.setCellValueFactory(new PropertyValueFactory<>(name));
 
 		return column;
+	}
+
+	private ImageView getImageForId(int id) throws FileNotFoundException {
+		String artifactGfxId = String.valueOf(id);
+		Image image = new Image(
+			new FileInputStream(
+				"src/main/resources/images/ITEMS_" + String
+					.format("%1$" + 3 + "s", artifactGfxId)
+					.replace(' ', '0') + "_000.bmp"
+			)
+		);
+		ImageView imageView = new ImageView(image);
+		imageView.setX(100);
+		imageView.setY(25);
+		imageView.setFitHeight(34);
+		imageView.setFitWidth(34);
+		imageView.setPreserveRatio(true);
+
+		return imageView;
 	}
 
 	private ChoiceBox<Integer> createArtifactCheckBox(

@@ -8,7 +8,9 @@ public class Artifact {
 
     private final int id;
 
-    private int totalOffset;
+    private int vaultStorage;
+
+    private int offset;
 
     private String name;
 
@@ -38,6 +40,14 @@ public class Artifact {
 
     private int spell;
 
+    private int enchantmentSlot1;
+
+    private int enchantmentSlot2;
+
+    private int enchantmentSlot3;
+
+    private int enchantmentSlot4;
+
     private final Map<Integer, String> types;
 
     public Artifact(int id) {
@@ -60,12 +70,16 @@ public class Artifact {
         return id;
     }
 
-    public int getTotalOffset() {
-        return totalOffset;
+    public int getOffset() {
+        return offset;
     }
 
-    public void setTotalOffset(int totalOffset) {
-        this.totalOffset = totalOffset;
+    public int getOffset(int valOffset) {
+        return offset + valOffset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
     }
 
     public String getName() {
@@ -135,11 +149,11 @@ public class Artifact {
     }
 
     public int getMovementBonus() {
-        return movementBonus;
+        return movementBonus / 2;
     }
 
     public void setMovementBonus(int movementBonus) {
-        this.movementBonus = movementBonus;
+        this.movementBonus = movementBonus * 2;
     }
 
     public int getResistanceBonus() {
@@ -202,5 +216,13 @@ public class Artifact {
 
     public Map<Integer, String> getTypes() {
         return types;
+    }
+
+    public int getVaultStorage() {
+        return vaultStorage;
+    }
+
+    public void setVaultStorage(int vaultStorage) {
+        this.vaultStorage = vaultStorage;
     }
 }

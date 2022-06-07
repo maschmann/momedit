@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SaveGame {
 
@@ -21,11 +22,13 @@ public class SaveGame {
 
     private static final String ARTIFACT_OFFSET_LENGTH = "32";
 
+    private static final String VAULT_ARTIFACT_STORAGE_START = "0B08";
+
     private static final int ARTIFACT_MAX_AMOUNT = 132;
 
-    private static final String CITY_OFFSET_START = "8AAC";
+    //private static final String CITY_OFFSET_START = "8AAC";
 
-    private static final String CITY_OFFSET_LENGTH = "72";
+    //private static final String CITY_OFFSET_LENGTH = "72";
 
     private final SaveGameMappingLoader loader;
 
@@ -63,53 +66,6 @@ public class SaveGame {
 
     public void writeSingleValOffset(String offset, int value) {
         writeOffset(offset, 1, value);
-    }
-
-    private String findOffset(String offsetStart, int length) {
-        byte[] byteValues = new byte[length];
-        int offsetInt = Integer.parseInt(offsetStart, 16);
-        System.arraycopy(fileBytes, offsetInt, byteValues, 0, length);
-        if (length > 1) { // little endian handling, reverse byte[]
-            reverseByteArray(byteValues);
-        }
-
-        return BaseEncoding.base16().encode(byteValues);
-    }
-
-    private String readStringFromOffset(int offsetStart, int length) {
-        byte[] byteValues = new byte[length];
-        System.arraycopy(fileBytes, offsetStart, byteValues, 0, length);
-
-        return new String(byteValues, StandardCharsets.ISO_8859_1).trim();
-    }
-
-    private int findOffsetInt(String offsetStart, int length) {
-        // use a "#" to make sure it's handled as a hex value, otherwise it might break
-        return Integer.decode("#" + findOffset(offsetStart, length));
-    }
-
-    public void writeOffset(String offsetStart, int length, int value) {
-        try {
-            byte[] byteValues = BaseEncoding.base16().decode(intToPaddedHex(value));
-            int offsetInt = Integer.parseInt(offsetStart, 16);
-            if (length > 1) { // little endian again
-                reverseByteArray(byteValues);
-            }
-
-            for (int i = 0; i < byteValues.length; i++) {
-                fileBytes[offsetInt + i] = byteValues[i];
-            }
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void reverseByteArray(byte[] byteArray) {
-        for (int i = 0; i < byteArray.length / 2; i++) {
-            byte temp = byteArray[i];
-            byteArray[i] = byteArray[byteArray.length - i - 1];
-            byteArray[byteArray.length - i - 1] = temp;
-        }
     }
 
     public List<SaveGameEntryInterface> getBase() {
@@ -177,49 +133,53 @@ public class SaveGame {
         Artifact artifact = new Artifact(id);
 
         artifact.setName(readStringFromOffset(artifactOffset, 29));
+        artifact.setOffset(artifactOffset);
 
-        artifact.setGraphics(
-            findOffsetInt(intToPaddedHex(artifactOffset + 30), 1)
-        );
-        artifact.setType(
-            findOffsetInt(intToPaddedHex(artifactOffset + 32), 1)
-        );
-        artifact.setManaPrice(
-            findOffsetInt(intToPaddedHex(artifactOffset + 34), 2)
-        );
-        artifact.setAttackBonus(
-            findOffsetInt(intToPaddedHex(artifactOffset + 36), 1)
-        );
-        artifact.setHitBonus(
-            findOffsetInt(intToPaddedHex(artifactOffset + 37), 1)
-        );
-        artifact.setDefenseBonus(
-            findOffsetInt(intToPaddedHex(artifactOffset + 38), 1)
-        );
-        artifact.setMovementBonus(
-            findOffsetInt(intToPaddedHex(artifactOffset + 39), 1)
-        );
-        artifact.setResistanceBonus(
-            findOffsetInt(intToPaddedHex(artifactOffset + 40), 1)
-        );
-        artifact.setSpellSkill(
-            findOffsetInt(intToPaddedHex(artifactOffset + 41), 1)
-        );
-        artifact.setSpellSave(
-            findOffsetInt(intToPaddedHex(artifactOffset + 42), 1)
-        );
-        artifact.setSpell(
-            findOffsetInt(intToPaddedHex(artifactOffset + 43), 1)
-        );
-        artifact.setSpellCharges(
-            findOffsetInt(intToPaddedHex(artifactOffset + 44), 1)
-        );
+        artifact.setGraphics(findOffsetInt(artifactOffset + 30, 1));
+        artifact.setType(findOffsetInt(artifactOffset + 32, 1));
+        artifact.setManaPrice(findOffsetInt(artifactOffset + 34, 2));
+        artifact.setAttackBonus(findOffsetInt(artifactOffset + 36, 1));
+        artifact.setHitBonus(findOffsetInt(artifactOffset + 37, 1));
+        artifact.setDefenseBonus(findOffsetInt(artifactOffset + 38, 1));
+        artifact.setMovementBonus(findOffsetInt(artifactOffset + 39, 1));
+        artifact.setResistanceBonus(findOffsetInt(artifactOffset + 40, 1));
+        artifact.setSpellSkill(findOffsetInt(artifactOffset + 41, 1));
+        artifact.setSpellSave(findOffsetInt(artifactOffset + 42, 1));
+        artifact.setSpell(findOffsetInt(artifactOffset + 43, 1));
+        artifact.setSpellCharges(findOffsetInt(artifactOffset + 44, 1));
+
+        // double list stream, maybe not too performant. Worry later.
+        if (readVaultData().contains(id)) {
+            artifact.setVaultStorage(readVaultData().indexOf(id));
+        }
 
         return artifact;
     }
 
     public void saveArtifact(Artifact artifact) {
+        if (artifact.getOffset() == 0) { // new items only
+            int offsetStart = Integer.parseInt(ARTIFACT_OFFSET_START, 16);
+            int artifactSize = Integer.parseInt(ARTIFACT_OFFSET_LENGTH, 16);
+            artifact.setOffset((artifact.getId() * artifactSize) + offsetStart);
+        }
 
+        byte[] name = artifact.getName().getBytes(StandardCharsets.ISO_8859_1);
+        System.arraycopy(name, 0, fileBytes, artifact.getOffset(), name.length);
+        writeOffset(artifact.getOffset(30), 1, artifact.getGraphics());
+        writeOffset(artifact.getOffset(32), 1, artifact.getType());
+        writeOffset(artifact.getOffset(34), 2, artifact.getManaPrice());
+        writeOffset(artifact.getOffset(36), 1, artifact.getAttackBonus());
+        writeOffset(artifact.getOffset(37), 1, artifact.getHitBonus());
+        writeOffset(artifact.getOffset(38), 1, artifact.getDefenseBonus());
+        writeOffset(artifact.getOffset(39), 1, artifact.getMovementBonus());
+        writeOffset(artifact.getOffset(40), 1, artifact.getResistanceBonus());
+        writeOffset(artifact.getOffset(41), 1, artifact.getSpellSkill());
+        writeOffset(artifact.getOffset(42), 1, artifact.getSpellSave());
+        writeOffset(artifact.getOffset(43), 1, artifact.getSpell());
+        writeOffset(artifact.getOffset(44), 1, artifact.getSpellCharges());
+        if (artifact.getVaultStorage() > 0) {
+            writeOffset(getVaultOffset(artifact.getVaultStorage()), 2, artifact.getId());
+        }
     }
 
     private List<SaveGameEntryInterface> loadMapWithData(String type) {
@@ -234,6 +194,17 @@ public class SaveGame {
         }
     }
 
+    private List<Integer> readVaultData() {
+        // there are four vault storage spaces
+        return Stream.of(1, 2, 3, 4)
+            .map(id -> findOffsetInt(getVaultOffset(id), 2))
+            .collect(Collectors.toList());
+    }
+
+    private int getVaultOffset(int vaultId) {
+        return Integer.parseInt(VAULT_ARTIFACT_STORAGE_START, 16) + ((vaultId - 1) * 2);
+    }
+
     private String intToPaddedHex(int value) {
         // for ... reasons it always has to be uppercase
         String hexval = Integer.toHexString(value).toUpperCase();
@@ -244,9 +215,60 @@ public class SaveGame {
         return hexval;
     }
 
-    private String addIntToHex(int intval, String hexval) {
-        return intToPaddedHex(
-            intval + Integer.parseInt(hexval, 16)
-        );
+    private String findOffset(String offsetStart, int length) {
+        byte[] byteValues = new byte[length];
+        int offsetInt = Integer.parseInt(offsetStart, 16);
+        System.arraycopy(fileBytes, offsetInt, byteValues, 0, length);
+        if (length > 1) { // little endian handling, reverse byte[]
+            reverseByteArray(byteValues);
+        }
+
+        return BaseEncoding.base16().encode(byteValues);
+    }
+
+    private int findOffsetInt(String offsetStart, int length) {
+        // use a "#" to make sure it's handled as a hex value, otherwise it might break
+        return Integer.decode("#" + findOffset(offsetStart, length));
+    }
+
+    private int findOffsetInt(int offsetStart, int length) {
+        return findOffsetInt(intToPaddedHex(offsetStart), length);
+    }
+
+    private String readStringFromOffset(int offsetStart, int length) {
+        byte[] byteValues = new byte[length];
+        System.arraycopy(fileBytes, offsetStart, byteValues, 0, length);
+
+        return new String(byteValues, StandardCharsets.ISO_8859_1).trim();
+    }
+
+    public void writeOffset(int offsetStart, int length, int value) {
+        try {
+            byte[] tmpValues = BaseEncoding.base16().decode(intToPaddedHex(value));
+            // fix for 1 byte values in 2+ byte slots with little endian
+            byte[] byteValues = new byte[length];
+            System.arraycopy(tmpValues, 0, byteValues, (byteValues.length - tmpValues.length), tmpValues.length);
+
+            if (length > 1) { // little endian again
+                reverseByteArray(byteValues);
+            }
+
+            System.arraycopy(byteValues, 0, fileBytes, offsetStart, byteValues.length);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeOffset(String offsetStart, int length, int value) {
+        int offsetInt = Integer.parseInt(offsetStart, 16);
+        writeOffset(offsetInt, length, value);
+    }
+
+    private void reverseByteArray(byte[] byteArray) {
+        for (int i = 0; i < byteArray.length / 2; i++) {
+            byte temp = byteArray[i];
+            byteArray[i] = byteArray[byteArray.length - i - 1];
+            byteArray[byteArray.length - i - 1] = temp;
+        }
     }
 }
