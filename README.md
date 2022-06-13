@@ -43,7 +43,7 @@ Every unit has 50 bytes.
 | 49           | enchantments4    | int       | 0-255       |
 
 
-Enchantments are fun. The range from offset 46-49, each byte one enchantment or a combination thereof.
+Enchantments are fun. They range from offset 46-49, each byte one enchantment or a combination thereof.
 
 | int | hex | type                                    |
 |-----|-----|-----------------------------------------|
@@ -57,7 +57,7 @@ Enchantments are fun. The range from offset 46-49, each byte one enchantment or 
 | 128 | 80  | Pathfinding, as pathfinding spell       |
 
 The funny thing is, if you've noticed the gaps between the progression 1,2,4,8,16...  
-Inbetween you'll get a combination of all former enchantments.  
+In between you'll get a combination of all former enchantments.  
 As an example: int 7 would be 4 + 2 + 1, meaning you'd get all the three previous enchantments. If you're above 128, you'll iterate through all possible combinations between the eight enchantments for this offset byte (46).  
 In total there are 4 slots of 8 enchantments, each.  
 To get all the spells and enchantments, I did a lot of "change savegame, load, check" to get grip of the progression and a list of all the spells. It was tedious >.<
