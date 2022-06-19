@@ -111,6 +111,17 @@ public class SaveGame {
         }
     }
 
+    public Map<String, String> getEnchantments() {
+        try {
+            return loader.loadArtifactEnchantments().stream()
+                .collect(Collectors.toMap(
+                        SimpleItemInterface::getName, SimpleItemInterface::getCompoundId
+                ));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public List<Artifact> getArtifacts() {
         int offsetStart = Integer.parseInt(ARTIFACT_OFFSET_START, 16);
         int artifactSize = Integer.parseInt(ARTIFACT_OFFSET_LENGTH, 16);

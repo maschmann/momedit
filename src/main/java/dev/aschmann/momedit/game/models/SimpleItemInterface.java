@@ -6,4 +6,6 @@ public interface SimpleItemInterface {
     public int getValue();
 
     public int getOffset();
+
+    public String getCompoundId();
 }

@@ -18,4 +18,8 @@ abstract class SimpleItem implements SimpleItemInterface {
     public int getValue() {
         return value;
     }
+
+    public String getCompoundId() {
+        return String.valueOf(offset) + "_" + String.valueOf(value);
+    }
 }

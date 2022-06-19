@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class EditorController implements Initializable {
 	@FXML
@@ -138,52 +139,71 @@ public class EditorController implements Initializable {
 			// There be dragons...
 		}
 
-		ChoiceBox<Integer> attackBonus = createArtifactCheckBox(
+		ChoiceBox<Integer> attackBonus = createArtifactChoiceBox(
 			"attackBonus:", 3, grid, artifact.getAttackBonus(), Arrays.asList(0, 1, 2, 3, 4, 5, 6)
 		);
 		attackBonus.setOnAction((cbEvent) -> artifact.setAttackBonus(attackBonus.getSelectionModel().getSelectedItem()));
 
-		ChoiceBox<Integer> hitBonus = createArtifactCheckBox(
+		ChoiceBox<Integer> hitBonus = createArtifactChoiceBox(
 			"hitBonus:", 4, grid, artifact.getHitBonus(), Arrays.asList(0, 1, 2, 3)
 		);
 		hitBonus.setOnAction((cbEvent) -> artifact.setHitBonus(hitBonus.getSelectionModel().getSelectedItem()));
 
-		ChoiceBox<Integer> defenseBonus = createArtifactCheckBox(
+		ChoiceBox<Integer> defenseBonus = createArtifactChoiceBox(
 			"defenseBonus:", 5, grid, artifact.getDefenseBonus(), Arrays.asList(0, 1, 2, 3, 4, 5, 6)
 		);
 		defenseBonus.setOnAction((cbEvent) -> artifact.setDefenseBonus(defenseBonus.getSelectionModel().getSelectedItem()));
 
-		ChoiceBox<Integer> movementBonus = createArtifactCheckBox(
+		ChoiceBox<Integer> movementBonus = createArtifactChoiceBox(
 			"movementBonus:", 6, grid, artifact.getMovementBonus(), Arrays.asList(0, 1, 2, 3, 4)
 		);
 		movementBonus.setOnAction((cbEvent) -> artifact.setMovementBonus(movementBonus.getSelectionModel().getSelectedItem()));
 
-		ChoiceBox<Integer> resistanceBonus = createArtifactCheckBox(
+		ChoiceBox<Integer> resistanceBonus = createArtifactChoiceBox(
 			"resistanceBonus:", 7, grid, artifact.getResistanceBonus(), Arrays.asList(0, 1, 2, 3, 4, 5, 6)
 		);
 		resistanceBonus.setOnAction((cbEvent) -> artifact.setResistanceBonus(resistanceBonus.getSelectionModel().getSelectedItem()));
 
-		ChoiceBox<Integer> spellSkill = createArtifactCheckBox(
+		ChoiceBox<Integer> spellSkill = createArtifactChoiceBox(
 			"spellSkill:", 8, grid, artifact.getSpellSkill(), Arrays.asList(0, 5, 10, 15, 20)
 		);
 		spellSkill.setOnAction((cbEvent) -> artifact.setSpellSkill(spellSkill.getSelectionModel().getSelectedItem()));
 
-		ChoiceBox<Integer> spellSave = createArtifactCheckBox(
+		ChoiceBox<Integer> spellSave = createArtifactChoiceBox(
 			"spellSave:", 9, grid, artifact.getSpellSave(), Arrays.asList(0, 1, 2, 3, 4)
 		);
 		spellSave.setOnAction((cbEvent) -> artifact.setSpellSave(spellSave.getSelectionModel().getSelectedItem()));
 
-		ChoiceBox<Integer> spellCharges = createArtifactCheckBox(
+		ChoiceBox<Integer> spellCharges = createArtifactChoiceBox(
 			"spellCharges:", 10, grid, artifact.getSpellSave(), Arrays.asList(0, 1, 2, 3, 4)
 		);
 		spellCharges.setOnAction((cbEvent) -> artifact.setSpellSave(spellCharges.getSelectionModel().getSelectedItem()));
 
-		ChoiceBox<Integer> vaultStorage = createArtifactCheckBox(
+		ChoiceBox<Integer> vaultStorage = createArtifactChoiceBox(
 			"vaultSpace:", 11, grid, artifact.getVaultStorage(), Arrays.asList(0, 1, 2, 3, 4)
 		);
 		vaultStorage.setOnAction((cbEvent) -> artifact.setVaultStorage(vaultStorage.getSelectionModel().getSelectedItem()));
 
 		artifact.setManaPrice(3500); // set some nice default price, so you can get money
+
+		// ugly workaround
+		final AtomicInteger ePosition = new AtomicInteger(12);
+		final AtomicInteger eColumn = new AtomicInteger(0);
+
+		// add a LOT of checkboxes
+		saveGame.getEnchantments().forEach((eName, eOffset) -> {
+			CheckBox cb = new CheckBox();
+			cb.setId(eOffset);
+			cb.setText(eName);
+			cb.setSelected(false);
+
+			// do the odd/Even thing
+			if (eColumn.get() == 1) {
+				grid.add(cb, eColumn.getAndDecrement(), ePosition.getAndIncrement());
+			} else {
+				grid.add(cb, eColumn.getAndIncrement(), ePosition.get());
+			}
+		});
 
 		//Node storeButton = dialog.getDialogPane().lookupButton(storeButtonType);
 		//storeButton.setDisable(true);
@@ -191,7 +211,6 @@ public class EditorController implements Initializable {
 
 		Platform.runLater(name::requestFocus);
 
-        // Convert the result to a username-password-pair when the login button is clicked.
 		dialog.setResultConverter(dialogButton -> {
 			if (dialogButton == storeButtonType) {
 				return artifact;
@@ -379,7 +398,7 @@ public class EditorController implements Initializable {
 		return imageView;
 	}
 
-	private ChoiceBox<Integer> createArtifactCheckBox(
+	private ChoiceBox<Integer> createArtifactChoiceBox(
 		String label,
 		int position,
 		GridPane grid,
