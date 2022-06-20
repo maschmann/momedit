@@ -40,13 +40,7 @@ public class Artifact {
 
     private int spell;
 
-    private int enchantmentSlot1;
-
-    private int enchantmentSlot2;
-
-    private int enchantmentSlot3;
-
-    private int enchantmentSlot4;
+    private final int[] enchantments;
 
     private final Map<Integer, String> types;
 
@@ -60,6 +54,8 @@ public class Artifact {
         types.put(4, "Wand");
         types.put(5, "Shield");
         types.put(6, "Amulet");
+
+        enchantments = new int[] {0, 0, 0, 0};
     }
 
     public static void main(int id) {
@@ -224,5 +220,59 @@ public class Artifact {
 
     public void setVaultStorage(int vaultStorage) {
         this.vaultStorage = vaultStorage;
+    }
+
+    public void addEnchantment(String compositeId) {
+        String[] idPartials = compositeId.split("_");
+        handleEnchantmentUpdate(idPartials[0], Integer.parseInt(idPartials[1]));
+    }
+
+    public void removeEnchantment(String compositeId) {
+        String[] idPartials = compositeId.split("_");
+        // make it a negative value, so we can simply add it
+        handleEnchantmentUpdate(idPartials[0], (Integer.parseInt(idPartials[1]) * -1));
+    }
+
+    public int getEnchantments1() {
+        return enchantments[0];
+    }
+
+    public void setEnchantments1(int value) {
+        enchantments[0] = value;
+    }
+
+    public int getEnchantments2() {
+        return enchantments[1];
+    }
+
+    public void setEnchantments2(int value) {
+        enchantments[1] = value;
+    }
+
+    public int getEnchantments3() {
+        return enchantments[2];
+    }
+
+    public void setEnchantments3(int value) {
+        enchantments[2] = value;
+    }
+
+    public int getEnchantments4() {
+        return enchantments[3];
+    }
+
+    public void setEnchantments4(int value) {
+        enchantments[3] = value;
+    }
+
+    private void handleEnchantmentUpdate(String type, int value) {
+        int slot = switch (type) {
+            case "47" -> 1;
+            case "48" -> 2;
+            case "49" -> 3;
+            default -> 0; // & 46
+        };
+
+        enchantments[slot] = enchantments[slot] + value;
     }
 }

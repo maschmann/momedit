@@ -203,6 +203,17 @@ public class EditorController implements Initializable {
 			} else {
 				grid.add(cb, eColumn.getAndIncrement(), ePosition.get());
 			}
+
+			cb.setOnAction(aEvent -> {
+				Object currCb = aEvent.getSource();
+				if (currCb instanceof CheckBox) {
+					if (((CheckBox) currCb).isSelected()) {
+						artifact.addEnchantment(((CheckBox) currCb).getId());
+					} else {
+						artifact.removeEnchantment(((CheckBox) currCb).getId());
+					}
+				}
+			});
 		});
 
 		//Node storeButton = dialog.getDialogPane().lookupButton(storeButtonType);

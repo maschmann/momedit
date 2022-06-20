@@ -158,6 +158,10 @@ public class SaveGame {
         artifact.setSpellSave(findOffsetInt(artifactOffset + 42, 1));
         artifact.setSpell(findOffsetInt(artifactOffset + 43, 1));
         artifact.setSpellCharges(findOffsetInt(artifactOffset + 44, 1));
+        artifact.setEnchantments1(findOffsetInt(artifactOffset + 46, 1));
+        artifact.setEnchantments2(findOffsetInt(artifactOffset + 47, 1));
+        artifact.setEnchantments3(findOffsetInt(artifactOffset + 48, 1));
+        artifact.setEnchantments4(findOffsetInt(artifactOffset + 49, 1));
 
         // double list stream, maybe not too performant. Worry later.
         if (readVaultData().contains(id)) {
@@ -188,6 +192,10 @@ public class SaveGame {
         writeOffset(artifact.getOffset(42), 1, artifact.getSpellSave());
         writeOffset(artifact.getOffset(43), 1, artifact.getSpell());
         writeOffset(artifact.getOffset(44), 1, artifact.getSpellCharges());
+        writeOffset(artifact.getOffset(46), 1, artifact.getEnchantments1());
+        writeOffset(artifact.getOffset(47), 1, artifact.getEnchantments2());
+        writeOffset(artifact.getOffset(48), 1, artifact.getEnchantments3());
+        writeOffset(artifact.getOffset(49), 1, artifact.getEnchantments4());
         if (artifact.getVaultStorage() > 0) {
             writeOffset(getVaultOffset(artifact.getVaultStorage()), 2, artifact.getId());
         }
