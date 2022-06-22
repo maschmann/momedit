@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.util.converter.BooleanStringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
 import java.io.File;
@@ -119,6 +120,8 @@ public class EditorController implements Initializable {
 		grid.add(type, 1, 1);
 		type.setOnAction((cbEvent) -> artifact.setTypeString(type.getSelectionModel().getSelectedItem()));
 
+
+
 		TextField imageVal = new TextField();
 		imageVal.setPromptText("image");
 		grid.add(imageVal, 0, 2);
@@ -185,6 +188,7 @@ public class EditorController implements Initializable {
 		vaultStorage.setOnAction((cbEvent) -> artifact.setVaultStorage(vaultStorage.getSelectionModel().getSelectedItem()));
 
 		artifact.setManaPrice(3500); // set some nice default price, so you can get money
+		// No spells here, need to jump a lot of hoops to build them in
 
 		// ugly workaround
 		final AtomicInteger ePosition = new AtomicInteger(12);
@@ -364,6 +368,12 @@ public class EditorController implements Initializable {
 		table.getColumns().add(createArtifactIntegerColumn("spellCharges", "spellCharges"));
 		table.getColumns().add(createArtifactIntegerColumn("spell", "spell"));
 		table.getColumns().add(createArtifactIntegerColumn("manaPrice", "manaPrice"));
+
+		// try later
+		/*TableColumn<Artifact, Boolean> hasEnchantments = new TableColumn<>("enchanted");
+		hasEnchantments.setCellValueFactory(new PropertyValueFactory<>("hasEnchantment"));
+		hasEnchantments.setCellFactory(TextFieldTableCell.forTableColumn(new BooleanStringConverter()));
+		table.getColumns().add(hasEnchantments);*/
 
 		table.getItems().addAll(artifacts);
 	}

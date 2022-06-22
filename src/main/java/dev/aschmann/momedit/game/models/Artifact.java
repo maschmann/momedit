@@ -1,5 +1,6 @@
 package dev.aschmann.momedit.game.models;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -231,6 +232,10 @@ public class Artifact {
         String[] idPartials = compositeId.split("_");
         // make it a negative value, so we can simply add it
         handleEnchantmentUpdate(idPartials[0], (Integer.parseInt(idPartials[1]) * -1));
+    }
+
+    public boolean hasEnchantments() {
+        return Arrays.stream(enchantments).reduce(0, Integer::sum) > 0;
     }
 
     public int getEnchantments1() {

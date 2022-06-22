@@ -111,9 +111,20 @@ public class SaveGame {
         }
     }
 
+    public Map<String, Integer> getArtifactSpells() {
+        try {
+            return loader.loadArtifactMap(SaveGameMappingLoader.ARTIFACT_SPELL_TYPE).stream()
+                    .collect(Collectors.toList(
+                            SimpleItemInterface::getName, SimpleItemInterface::getValue
+                    ));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public Map<String, String> getEnchantments() {
         try {
-            return loader.loadArtifactEnchantments().stream()
+            return loader.loadArtifactMap(SaveGameMappingLoader.ARTIFACT_ENCHANTMENT_TYPE).stream()
                 .collect(Collectors.toMap(
                         SimpleItemInterface::getName, SimpleItemInterface::getCompoundId
                 ));

@@ -1,199 +1,199 @@
 ---
-- { value: 1, name: "Earth to Mud", offset: 44 }
-- { value: 2, name: "Resist Elements", offset: 44 }
-- { value: 3, name: "Wall of Stone", offset: 44 }
+#- { value: 1, name: "Earth to Mud", offset: 44 }
+#- { value: 2, name: "Resist Elements", offset: 44 }
+#- { value: 3, name: "Wall of Stone", offset: 44 }
 - { value: 4, name: "Giant Strength", offset: 44 }
-- { value: 5, name: "Web", offset: 44 }
-- { value: 6, name: "War Bears", offset: 44 }
+#- { value: 5, name: "Web", offset: 44 }
+#- { value: 6, name: "War Bears", offset: 44 }
 - { value: 7, name: "Stone Skin", offset: 44 }
 - { value: 8, name: "Water walking", offset: 44 }
-- { value: 9, name: "Sprites", offset: 44 }
-- { value: 10, name: "Earth Lore", offset: 44 }
-- { value: 11, name: "Cracks Call", offset: 44 }
-- { value: 12, name: "Nature's Eye", offset: 44 }
+#- { value: 9, name: "Sprites", offset: 44 }
+#- { value: 10, name: "Earth Lore", offset: 44 }
+#- { value: 11, name: "Cracks Call", offset: 44 }
+#- { value: 12, name: "Nature's Eye", offset: 44 }
 - { value: 13, name: "Ice Bolt", offset: 44 }
-- { value: 14, name: "Giant Spiders", offset: 44 }
-- { value: 15, name: "Change Terrain", offset: 44 }
+#- { value: 14, name: "Giant Spiders", offset: 44 }
+#- { value: 15, name: "Change Terrain", offset: 44 }
 - { value: 16, name: "Path Finding", offset: 44 }
-- { value: 17, name: "Cockatrices", offset: 44 }
-- { value: 18, name: "Transmute", offset: 44 }
-- { value: 19, name: "Nature's Cures", offset: 44 }
+#- { value: 17, name: "Cockatrices", offset: 44 }
+#- { value: 18, name: "Transmute", offset: 44 }
+#- { value: 19, name: "Nature's Cures", offset: 44 }
 - { value: 20, name: "Basilisk", offset: 44 }
 - { value: 21, name: "Elemental Armor", offset: 44 }
-- { value: 22, name: "Petrify", offset: 44 }
-- { value: 23, name: "Stone Giant", offset: 44 }
+#- { value: 22, name: "Petrify", offset: 44 }
+#- { value: 23, name: "Stone Giant", offset: 44 }
 - { value: 24, name: "Iron Skin", offset: 44 }
 - { value: 25, name: "Ice Storm", offset: 44 }
-- { value: 26, name: "Earthquake", offset: 44 }
-- { value: 27, name: "Gorgons", offset: 44 }
-- { value: 28, name: "Move Fortress", offset: 44 }
-- { value: 29, name: "Gaia's Blessing", offset: 44 }
-- { value: 30, name: "Earth Elemental", offset: 44 }
+#- { value: 26, name: "Earthquake", offset: 44 }
+#- { value: 27, name: "Gorgons", offset: 44 }
+#- { value: 28, name: "Move Fortress", offset: 44 }
+#- { value: 29, name: "Gaia's Blessing", offset: 44 }
+#- { value: 30, name: "Earth Elemental", offset: 44 }
 - { value: 31, name: "Regeneration", offset: 44 }
-- { value: 32, name: "Behemoth", offset: 44 }
-- { value: 33, name: "Entangle", offset: 44 }
-- { value: 34, name: "Nature Awareness", offset: 44 }
+#- { value: 32, name: "Behemoth", offset: 44 }
+#- { value: 33, name: "Entangle", offset: 44 }
+#- { value: 34, name: "Nature Awareness", offset: 44 }
 - { value: 35, name: "Call Lightning", offset: 44 }
-- { value: 36, name: "Colossus", offset: 44 }
-- { value: 37, name: "Earth Gate", offset: 44 }
-- { value: 38, name: "Herb Mastery", offset: 44 }
+#- { value: 36, name: "Colossus", offset: 44 }
+#- { value: 37, name: "Earth Gate", offset: 44 }
+#- { value: 38, name: "Herb Mastery", offset: 44 }
 - { value: 39, name: "Great Wyrm", offset: 44 }
-- { value: 40, name: "Nature's Wrath", offset: 44 }
+#- { value: 40, name: "Nature's Wrath", offset: 44 }
 - { value: 41, name: "Resist Magic", offset: 44 }
-- { value: 42, name: "Spell Blast", offset: 44 }
-- { value: 43, name: "Aura of Majesty", offset: 44 }
-- { value: 44, name: "Phantom Beast", offset: 44 }
-- { value: 45, name: "Disjunction True", offset: 44 }
+#- { value: 42, name: "Spell Blast", offset: 44 }
+#- { value: 43, name: "Aura of Majesty", offset: 44 }
+#- { value: 44, name: "Phantom Beast", offset: 44 }
+#- { value: 45, name: "Disjunction True", offset: 44 }
 - { value: 46, name: "Invisibility", offset: 44 }
 - { value: 47, name: "Wind Walking", offset: 44 }
-- { value: 48, name: "Banish", offset: 44 }
-- { value: 49, name: "Storm Giant", offset: 44 }
-- { value: 50, name: "Air Elemental", offset: 44 }
-- { value: 51, name: "Mind Storm", offset: 44 }
-- { value: 52, name: "Stasis", offset: 44 }
-- { value: 53, name: "Magic Immunity", offset: 44 }
-- { value: 54, name: "Haste", offset: 44 }
-- { value: 55, name: "Djinn", offset: 44 }
-- { value: 56, name: "Spell Ward", offset: 44 }
-- { value: 57, name: "Creature Binding", offset: 44 }
+#- { value: 48, name: "Banish", offset: 44 }
+#- { value: 49, name: "Storm Giant", offset: 44 }
+#- { value: 50, name: "Air Elemental", offset: 44 }
+#- { value: 51, name: "Mind Storm", offset: 44 }
+#- { value: 52, name: "Stasis", offset: 44 }
+#- { value: 53, name: "Magic Immunity", offset: 44 }
+#- { value: 54, name: "Haste", offset: 44 }
+#- { value: 55, name: "Djinn", offset: 44 }
+#- { value: 56, name: "Spell Ward", offset: 44 }
+#- { value: 57, name: "Creature Binding", offset: 44 }
 - { value: 58, name: "Mass Invisibility", offset: 44 }
-- { value: 59, name: "Great Unsummoning", offset: 44 }
-- { value: 60, name: "Spell Binding", offset: 44 }
-- { value: 61, name: "Flying Fortress", offset: 44 }
-- { value: 62, name: "Sky Drake", offset: 44 }
-- { value: 63, name: "Suppress Magic", offset: 44 }
-- { value: 64, name: "Time Stop", offset: 44 }
-- { value: 65, name: "Warp Wood", offset: 44 }
-- { value: 66, name: "Disrupt", offset: 44 }
+#- { value: 59, name: "Great Unsummoning", offset: 44 }
+#- { value: 60, name: "Spell Binding", offset: 44 }
+#- { value: 61, name: "Flying Fortress", offset: 44 }
+#- { value: 62, name: "Sky Drake", offset: 44 }
+#- { value: 63, name: "Suppress Magic", offset: 44 }
+#- { value: 64, name: "Time Stop", offset: 44 }
+#- { value: 65, name: "Warp Wood", offset: 44 }
+#- { value: 66, name: "Disrupt", offset: 44 }
 - { value: 67, name: "Fire Bolt", offset: 44 }
-- { value: 68, name: "Hell Hounds", offset: 44 }
-- { value: 69, name: "Corruption", offset: 44 }
-- { value: 70, name: "Eldrich Weapon", offset: 44 }
-- { value: 71, name: "Wall of Fire", offset: 44 }
-- { value: 72, name: "Shatter", offset: 44 }
-- { value: 73, name: "Warp Creature", offset: 44 }
-- { value: 74, name: "Fire Elemental", offset: 44 }
+#- { value: 68, name: "Hell Hounds", offset: 44 }
+#- { value: 69, name: "Corruption", offset: 44 }
+#- { value: 70, name: "Eldrich Weapon", offset: 44 }
+#- { value: 71, name: "Wall of Fire", offset: 44 }
+#- { value: 72, name: "Shatter", offset: 44 }
+#- { value: 73, name: "Warp Creature", offset: 44 }
+#- { value: 74, name: "Fire Elemental", offset: 44 }
 - { value: 75, name: "Lightning Bolt", offset: 44 }
-- { value: 76, name: "Fire Giant", offset: 44 }
-- { value: 77, name: "Chaos Channels", offset: 44 }
-- { value: 78, name: "Flame Blade", offset: 44 }
-- { value: 79, name: "Gargoyles", offset: 44 }
+#- { value: 76, name: "Fire Giant", offset: 44 }
+#- { value: 77, name: "Chaos Channels", offset: 44 }
+#- { value: 78, name: "Flame Blade", offset: 44 }
+#- { value: 79, name: "Gargoyles", offset: 44 }
 - { value: 80, name: "Fireball", offset: 44 }
-- { value: 81, name: "Doom Bat", offset: 44 }
-- { value: 82, name: "Raise Volcano", offset: 44 }
-- { value: 83, name: "Immolation", offset: 44 }
-- { value: 84, name: "Chimeras", offset: 44 }
-- { value: 85, name: "Warp Lightning", offset: 44 }
-- { value: 86, name: "Metal Fires", offset: 44 }
-- { value: 87, name: "Chaos Spawn", offset: 44 }
-- { value: 88, name: "Doom Bolt", offset: 44 }
-- { value: 89, name: "Magic Vortex", offset: 44 }
-- { value: 90, name: "Efreet", offset: 44 }
-- { value: 91, name: "Fire Storm", offset: 44 }
-- { value: 92, name: "Warp Reality", offset: 44 }
-- { value: 93, name: "Flame Strike", offset: 44 }
-- { value: 94, name: "Chaos Rift", offset: 44 }
-- { value: 95, name: "Hydra", offset: 44 }
-- { value: 96, name: "Disintegrate", offset: 44 }
-- { value: 97, name: "Meteor Storm", offset: 44 }
-- { value: 98, name: "Great Wasting", offset: 44 }
-- { value: 99, name: "Call Chaos", offset: 44 }
-- { value: 100, name: "Chaos Surge", offset: 44 }
-- { value: 101, name: "Doom Mastery", offset: 44 }
-- { value: 102, name: "Great Drake", offset: 44 }
-- { value: 103, name: "Call the Void", offset: 44 }
-- { value: 104, name: "Armageddon", offset: 44 }
-- { value: 105, name: "Bless", offset: 44 }
-- { value: 106, name: "Star Fires", offset: 44 }
-- { value: 107, name: "Endurance", offset: 44 }
-- { value: 108, name: "Holy Weapon", offset: 44 }
+#- { value: 81, name: "Doom Bat", offset: 44 }
+#- { value: 82, name: "Raise Volcano", offset: 44 }
+#- { value: 83, name: "Immolation", offset: 44 }
+#- { value: 84, name: "Chimeras", offset: 44 }
+#- { value: 85, name: "Warp Lightning", offset: 44 }
+#- { value: 86, name: "Metal Fires", offset: 44 }
+#- { value: 87, name: "Chaos Spawn", offset: 44 }
+#- { value: 88, name: "Doom Bolt", offset: 44 }
+#- { value: 89, name: "Magic Vortex", offset: 44 }
+#- { value: 90, name: "Efreet", offset: 44 }
+#- { value: 91, name: "Fire Storm", offset: 44 }
+#- { value: 92, name: "Warp Reality", offset: 44 }
+#- { value: 93, name: "Flame Strike", offset: 44 }
+#- { value: 94, name: "Chaos Rift", offset: 44 }
+#- { value: 95, name: "Hydra", offset: 44 }
+#- { value: 96, name: "Disintegrate", offset: 44 }
+#- { value: 97, name: "Meteor Storm", offset: 44 }
+#- { value: 98, name: "Great Wasting", offset: 44 }
+#- { value: 99, name: "Call Chaos", offset: 44 }
+#- { value: 100, name: "Chaos Surge", offset: 44 }
+#- { value: 101, name: "Doom Mastery", offset: 44 }
+#- { value: 102, name: "Great Drake", offset: 44 }
+#- { value: 103, name: "Call the Void", offset: 44 }
+#- { value: 104, name: "Armageddon", offset: 44 }
+#- { value: 105, name: "Bless", offset: 44 }
+#- { value: 106, name: "Star Fires", offset: 44 }
+#- { value: 107, name: "Endurance", offset: 44 }
+#- { value: 108, name: "Holy Weapon", offset: 44 }
 - { value: 109, name: "Healing", offset: 44 }
 - { value: 110, name: "Holy Armor", offset: 44 }
-- { value: 111, name: "Just Cause", offset: 44 }
-- { value: 112, name: "True Light", offset: 44 }
-- { value: 113, name: "Guardian Spirit", offset: 44 }
-- { value: 114, name: "Heroism", offset: 44 }
-- { value: 115, name: "True Sight", offset: 44 }
-- { value: 116, name: "Plane Shift ", offset: 44 }
-- { value: 117, name: "Resurrection", offset: 44 }
-- { value: 118, name: "Dispel Evil", offset: 44 }
-- { value: 119, name: "Planar Seal", offset: 44 }
-- { value: 120, name: "Unicorns", offset: 44 }
-- { value: 121, name: "Raise Dead", offset: 44 }
-- { value: 122, name: "Planar Travel", offset: 44 }
-- { value: 123, name: "Heavenly Light", offset: 44 }
-- { value: 124, name: "Prayer", offset: 44 }
-- { value: 125, name: "Lionheart", offset: 44 }
-- { value: 126, name: "Incarnation", offset: 44 }
+#- { value: 111, name: "Just Cause", offset: 44 }
+#- { value: 112, name: "True Light", offset: 44 }
+#- { value: 113, name: "Guardian Spirit", offset: 44 }
+#- { value: 114, name: "Heroism", offset: 44 }
+#- { value: 115, name: "True Sight", offset: 44 }
+#- { value: 116, name: "Plane Shift ", offset: 44 }
+#- { value: 117, name: "Resurrection", offset: 44 }
+#- { value: 118, name: "Dispel Evil", offset: 44 }
+#- { value: 119, name: "Planar Seal", offset: 44 }
+#- { value: 120, name: "Unicorns", offset: 44 }
+#- { value: 121, name: "Raise Dead", offset: 44 }
+#- { value: 122, name: "Planar Travel", offset: 44 }
+#- { value: 123, name: "Heavenly Light", offset: 44 }
+#- { value: 124, name: "Prayer", offset: 44 }
+#- { value: 125, name: "Lionheart", offset: 44 }
+#- { value: 126, name: "Incarnation", offset: 44 }
 - { value: 127, name: "Invulnerability", offset: 44 }
-- { value: 128, name: "Righteousness", offset: 44 }
-- { value: 129, name: "Prosperity", offset: 44 }
-- { value: 130, name: "Altar of Battle", offset: 44 }
-- { value: 131, name: "Angel", offset: 44 }
-- { value: 132, name: "Stream of Life", offset: 44 }
+#- { value: 128, name: "Righteousness", offset: 44 }
+#- { value: 129, name: "Prosperity", offset: 44 }
+#- { value: 130, name: "Altar of Battle", offset: 44 }
+#- { value: 131, name: "Angel", offset: 44 }
+#- { value: 132, name: "Stream of Life", offset: 44 }
 - { value: 133, name: "Mass Healing", offset: 44 }
-- { value: 134, name: "Holy Word", offset: 44 }
-- { value: 135, name: "High Prayer", offset: 44 }
-- { value: 136, name: "Inspirations", offset: 44 }
-- { value: 137, name: "Astral Gate", offset: 44 }
-- { value: 138, name: "Holy Arms", offset: 44 }
-- { value: 139, name: "Consecration", offset: 44 }
-- { value: 140, name: "Life Force", offset: 44 }
-- { value: 141, name: "Tranquility", offset: 44 }
-- { value: 142, name: "Crusade", offset: 44 }
-- { value: 143, name: "Arch Angel", offset: 44 }
-- { value: 144, name: "Charm of Life", offset: 44 }
-- { value: 145, name: "Skeletons", offset: 44 }
-- { value: 146, name: "Weakness", offset: 44 }
-- { value: 147, name: "Dark Rituals", offset: 44 }
-- { value: 148, name: "Cloak of Fear", offset: 44 }
-- { value: 149, name: "Black Sleep", offset: 44 }
-- { value: 150, name: "Ghouls", offset: 44 }
-- { value: 151, name: "Life Drain", offset: 44 }
-- { value: 152, name: "Terror", offset: 44 }
-- { value: 153, name: "Darkness", offset: 44 }
-- { value: 154, name: "Mana Leak", offset: 44 }
-- { value: 155, name: "Drain Power", offset: 44 }
-- { value: 156, name: "Possession", offset: 44 }
-- { value: 157, name: "Lycanthropy", offset: 44 }
-- { value: 158, name: "Black Prayer", offset: 44 }
-- { value: 159, name: "Black Channel", offset: 44 }
-- { value: 160, name: "Night Stalker", offset: 44 }
-- { value: 161, name: "Subversion", offset: 44 }
-- { value: 162, name: "Wall of Darkness", offset: 44 }
-- { value: 163, name: "Berserk", offset: 44 }
-- { value: 164, name: "Shadow Demons", offset: 44 }
-- { value: 165, name: "Wraith Form", offset: 44 }
-- { value: 166, name: "Wrack", offset: 44 }
-- { value: 167, name: "Evil Presence", offset: 44 }
-- { value: 168, name: "Wraiths", offset: 44 }
-- { value: 169, name: "Cloud of Shadow", offset: 44 }
-- { value: 170, name: "Warp Node", offset: 44 }
-- { value: 171, name: "Black Wind", offset: 44 }
-- { value: 172, name: "Zombie Mastery", offset: 44 }
-- { value: 173, name: "Famine", offset: 44 }
-- { value: 174, name: "Cursed Lands", offset: 44 }
-- { value: 175, name: "Cruel Unminding", offset: 44 }
-- { value: 176, name: "Word of Death", offset: 44 }
-- { value: 177, name: "Death Knights", offset: 44 }
-- { value: 178, name: "Death spell", offset: 44 }
-- { value: 179, name: "Animate Dead", offset: 44 }
-- { value: 180, name: "Pestillence", offset: 44 }
-- { value: 181, name: "Eternal Night", offset: 44 }
-- { value: 182, name: "Evil Omens", offset: 44 }
-- { value: 183, name: "Death Wish", offset: 44 }
-- { value: 184, name: "Demon Lord", offset: 44 }
-- { value: 185, name: "Magic Spirit", offset: 44 }
-- { value: 186, name: "Dispel Magic", offset: 44 }
-- { value: 187, name: "Summoning Circle", offset: 44 }
-- { value: 188, name: "Disenchant Area", offset: 44 }
-- { value: 189, name: "Recall Hero", offset: 44 }
-- { value: 190, name: "Detect Magic", offset: 44 }
-- { value: 191, name: "Enchant Item", offset: 44 }
-- { value: 192, name: "Summon Hero", offset: 44 }
-- { value: 193, name: "Awareness", offset: 44 }
-- { value: 194, name: "Disjunction", offset: 44 }
-- { value: 195, name: "Create Artifact", offset: 44 }
-- { value: 196, name: "Summon Champion", offset: 44 }
-- { value: 197, name: "Spell of Mastery", offset: 44 }
-- { value: 198, name: "Spell of Return", offset: 44 }
+#- { value: 134, name: "Holy Word", offset: 44 }
+#- { value: 135, name: "High Prayer", offset: 44 }
+#- { value: 136, name: "Inspirations", offset: 44 }
+#- { value: 137, name: "Astral Gate", offset: 44 }
+#- { value: 138, name: "Holy Arms", offset: 44 }
+#- { value: 139, name: "Consecration", offset: 44 }
+#- { value: 140, name: "Life Force", offset: 44 }
+#- { value: 141, name: "Tranquility", offset: 44 }
+#- { value: 142, name: "Crusade", offset: 44 }
+#- { value: 143, name: "Arch Angel", offset: 44 }
+#- { value: 144, name: "Charm of Life", offset: 44 }
+#- { value: 145, name: "Skeletons", offset: 44 }
+#- { value: 146, name: "Weakness", offset: 44 }
+#- { value: 147, name: "Dark Rituals", offset: 44 }
+#- { value: 148, name: "Cloak of Fear", offset: 44 }
+#- { value: 149, name: "Black Sleep", offset: 44 }
+#- { value: 150, name: "Ghouls", offset: 44 }
+#- { value: 151, name: "Life Drain", offset: 44 }
+#- { value: 152, name: "Terror", offset: 44 }
+#- { value: 153, name: "Darkness", offset: 44 }
+#- { value: 154, name: "Mana Leak", offset: 44 }
+#- { value: 155, name: "Drain Power", offset: 44 }
+#- { value: 156, name: "Possession", offset: 44 }
+#- { value: 157, name: "Lycanthropy", offset: 44 }
+#- { value: 158, name: "Black Prayer", offset: 44 }
+#- { value: 159, name: "Black Channel", offset: 44 }
+#- { value: 160, name: "Night Stalker", offset: 44 }
+#- { value: 161, name: "Subversion", offset: 44 }
+#- { value: 162, name: "Wall of Darkness", offset: 44 }
+#- { value: 163, name: "Berserk", offset: 44 }
+#- { value: 164, name: "Shadow Demons", offset: 44 }
+#- { value: 165, name: "Wraith Form", offset: 44 }
+#- { value: 166, name: "Wrack", offset: 44 }
+#- { value: 167, name: "Evil Presence", offset: 44 }
+#- { value: 168, name: "Wraiths", offset: 44 }
+#- { value: 169, name: "Cloud of Shadow", offset: 44 }
+#- { value: 170, name: "Warp Node", offset: 44 }
+#- { value: 171, name: "Black Wind", offset: 44 }
+#- { value: 172, name: "Zombie Mastery", offset: 44 }
+#- { value: 173, name: "Famine", offset: 44 }
+#- { value: 174, name: "Cursed Lands", offset: 44 }
+#- { value: 175, name: "Cruel Unminding", offset: 44 }
+#- { value: 176, name: "Word of Death", offset: 44 }
+#- { value: 177, name: "Death Knights", offset: 44 }
+#- { value: 178, name: "Death spell", offset: 44 }
+#- { value: 179, name: "Animate Dead", offset: 44 }
+#- { value: 180, name: "Pestillence", offset: 44 }
+#- { value: 181, name: "Eternal Night", offset: 44 }
+#- { value: 182, name: "Evil Omens", offset: 44 }
+#- { value: 183, name: "Death Wish", offset: 44 }
+#- { value: 184, name: "Demon Lord", offset: 44 }
+#- { value: 185, name: "Magic Spirit", offset: 44 }
+#- { value: 186, name: "Dispel Magic", offset: 44 }
+#- { value: 187, name: "Summoning Circle", offset: 44 }
+#- { value: 188, name: "Disenchant Area", offset: 44 }
+#- { value: 189, name: "Recall Hero", offset: 44 }
+#- { value: 190, name: "Detect Magic", offset: 44 }
+#- { value: 191, name: "Enchant Item", offset: 44 }
+#- { value: 192, name: "Summon Hero", offset: 44 }
+#- { value: 193, name: "Awareness", offset: 44 }
+#- { value: 194, name: "Disjunction", offset: 44 }
+#- { value: 195, name: "Create Artifact", offset: 44 }
+#- { value: 196, name: "Summon Champion", offset: 44 }
+#- { value: 197, name: "Spell of Mastery", offset: 44 }
+#- { value: 198, name: "Spell of Return", offset: 44 }

@@ -61,17 +61,16 @@ public class SaveGameMappingLoader {
         );
     }
 
-    public List<SimpleItemInterface> loadArtifactEnchantments() throws IOException {
-        return mapper.readValue(
-            new File("src/main/resources/" + ARTIFACT_ENCHANTMENT_TYPE + ".yaml"),
-            mapper.getTypeFactory().constructCollectionType(List.class, ArtifactEnchantmentItem.class)
-        );
-    }
+    public List<SimpleItemInterface> loadArtifactMap(String type) throws IOException {
+        String file = switch (type) {
+            case ARTIFACT_ENCHANTMENT_TYPE -> ARTIFACT_ENCHANTMENT_TYPE + ".yaml";
+            case ARTIFACT_SPELL_TYPE -> ARTIFACT_SPELL_TYPE + ".yaml";
+            default -> throw new DataTypeNotFoundException();
+        };
 
-    public List<SimpleItemInterface> loadArtifactSpells() throws IOException {
         return mapper.readValue(
-            new File("src/main/resources/" + ARTIFACT_SPELL_TYPE + ".yaml"),
-            mapper.getTypeFactory().constructCollectionType(List.class, ArtifactSpellItem.class)
+                new File("src/main/resources/" + file),
+                mapper.getTypeFactory().constructCollectionType(List.class, ArtifactEnchantmentItem.class)
         );
     }
 }
