@@ -1,7 +1,9 @@
 package dev.aschmann.momedit.game;
 
 import com.google.common.io.BaseEncoding;
-import dev.aschmann.momedit.game.models.*;
+import dev.aschmann.momedit.game.models.Artifact;
+import dev.aschmann.momedit.game.models.SaveGameEntryInterface;
+import dev.aschmann.momedit.game.models.SimpleItemInterface;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +11,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -114,9 +118,9 @@ public class SaveGame {
     public Map<String, Integer> getArtifactSpells() {
         try {
             return loader.loadArtifactMap(SaveGameMappingLoader.ARTIFACT_SPELL_TYPE).stream()
-                    .collect(Collectors.toList(
-                            SimpleItemInterface::getName, SimpleItemInterface::getValue
-                    ));
+                .collect(Collectors.toMap(
+                    SimpleItemInterface::getName, SimpleItemInterface::getValue
+                ));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -126,7 +130,7 @@ public class SaveGame {
         try {
             return loader.loadArtifactMap(SaveGameMappingLoader.ARTIFACT_ENCHANTMENT_TYPE).stream()
                 .collect(Collectors.toMap(
-                        SimpleItemInterface::getName, SimpleItemInterface::getCompoundId
+                    SimpleItemInterface::getName, SimpleItemInterface::getCompoundId
                 ));
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -302,3 +306,4 @@ public class SaveGame {
         }
     }
 }
+ 

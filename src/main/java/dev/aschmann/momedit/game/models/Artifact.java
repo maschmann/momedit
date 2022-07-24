@@ -1,8 +1,6 @@
 package dev.aschmann.momedit.game.models;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Artifact {
@@ -268,6 +266,35 @@ public class Artifact {
 
     public void setEnchantments4(int value) {
         enchantments[3] = value;
+    }
+
+    public List<Integer> decodeEnchantments(int sourceValue) {
+        /*
+        there are values from 1 to 254, we have to resolve by finding the right combination
+         */
+        int[] possibleValues = { 1, 2, 4, 8, 16, 32, 64, 128 };
+        List<Integer> result = new ArrayList<>();
+
+        if (sourceValue > 0) {
+            subCalc(sourceValue, possibleValues, (possibleValues.length - 1), result);
+        }
+
+        return result;
+    }
+
+    private void subCalc(int start, int[] possibleValues, int current, List<Integer> result) {
+        // larger means, we have to break the solution further down
+        if (start > possibleValues[current]) {
+            result.add(possibleValues[current]);
+            // decrease start by current number from array
+            subCalc(start - possibleValues[current], possibleValues, current - 1, result);
+            // equal: we're done
+        } else if (start == possibleValues[current]) {
+            result.add(possibleValues[current]);
+            // the number is smaller, so we check the next from the array
+        } else {
+            subCalc(start, possibleValues, current - 1, result);
+        }
     }
 
     private void handleEnchantmentUpdate(String type, int value) {
