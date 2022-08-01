@@ -232,8 +232,17 @@ public class Artifact {
         handleEnchantmentUpdate(idPartials[0], (Integer.parseInt(idPartials[1]) * -1));
     }
 
+    public boolean hasEnchantment(String compositeId) {
+        // we're just doing all the work every time, it's 36 max
+        String[] idPartials = compositeId.split("_");
+        int slot = getSlot(idPartials[0]);
+
+        return decodeEnchantments(enchantments[slot]).contains(Integer.parseInt(idPartials[1]));
+    }
+
     public boolean hasEnchantments() {
-        return Arrays.stream(enchantments).reduce(0, Integer::sum) > 0;
+        // just check if any of the slots has a value
+        return Arrays.stream(enchantments).anyMatch(slot -> slot > 0);
     }
 
     public int getEnchantments1() {
@@ -298,13 +307,16 @@ public class Artifact {
     }
 
     private void handleEnchantmentUpdate(String type, int value) {
-        int slot = switch (type) {
+        int slot = getSlot(type);
+        enchantments[slot] = enchantments[slot] + value;
+    }
+
+    private int getSlot(String offset) {
+        return switch (offset) {
             case "47" -> 1;
             case "48" -> 2;
             case "49" -> 3;
             default -> 0; // & 46
         };
-
-        enchantments[slot] = enchantments[slot] + value;
     }
 }
